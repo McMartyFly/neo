@@ -1,28 +1,44 @@
-body {
-  background-color: #fff; }
-  body .main {
+body .main {
+  height: 650px;
+  margin: 30px;
+  overflow: hidden;
+  position: relative; }
+  body .main .moon-bg {
+    background-color: #fff;
+    border-radius: 500px;
+    height: 1000px;
+    left: -300px;
+    position: absolute;
+    top: -176px;
+    width: 1000px; }
+  body .main .tab-wrap {
+    border-radius: 500px;
+    height: 1000px;
     overflow: hidden;
-    position: relative; }
-    body .main .moon-bg {
-      background-color: #fff;
-      border-radius: 500px;
-      height: 1000px;
-      left: -300px;
-      position: absolute;
-      top: -175px;
-      width: 1000px; }
-    body .main .tab-wrap .tab {
-      height: 130px;
-      text-align: right; }
-      body .main .tab-wrap .tab.tab-1 {
-        background-color: #281604; }
-      body .main .tab-wrap .tab.tab-2 {
-        background-color: #542309; }
-      body .main .tab-wrap .tab.tab-3 {
-        background-color: #993412; }
-      body .main .tab-wrap .tab.tab-4 {
-        background-color: #CC7018; }
-      body .main .tab-wrap .tab.tab-5 {
-        background-color: #FFAC1E; }
+    position: relative;
+    top: -175px; }
+    body .main .tab-wrap .tab-wrap-inner {
+      position: relative;
+      top: 175px; }
+      body .main .tab-wrap .tab-wrap-inner .tab {
+        -webkit-transition: all 200ms ease-in-out;
+        -moz-transition: all 200ms ease-in-out;
+        -o-transition: all 200ms ease-in-out;
+        transition: all 200ms ease-in-out;
+        height: 130px;
+        margin: 0;
+        text-align: right; }
+        body .main .tab-wrap .tab-wrap-inner .tab.tab-1 {
+          background-color: #262626; }
+        body .main .tab-wrap .tab-wrap-inner .tab.tab-2 {
+          background-color: #5F2D1C; }
+        body .main .tab-wrap .tab-wrap-inner .tab.tab-3 {
+          background-color: #993412; }
+        body .main .tab-wrap .tab-wrap-inner .tab.tab-4 {
+          background-color: #CC7018; }
+        body .main .tab-wrap .tab-wrap-inner .tab.tab-5 {
+          background-color: #FFAC1E; }
+        body .main .tab-wrap .tab-wrap-inner .tab:hover {
+          background-color: #ff00ff; }
 
 /*# sourceMappingURL=homepage.css.map */

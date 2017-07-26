@@ -1,7 +1,8 @@
 body {
-  background-color: #fff;
 
   .main {
+    height: 650px;
+    margin: 30px;
     overflow: hidden;
     position: relative;
 
@@ -11,27 +12,52 @@ body {
       height: 1000px;
       left: -300px;
       position: absolute;
-      top: -175px;
+      top: -176px;
       width: 1000px;
     }
     .tab-wrap {
-      .tab {
-        height: 130px;
-        text-align: right;
-        &.tab-1 {
-          background-color: #281604;
-        }
-        &.tab-2 {
-          background-color: #542309;
-        }
-        &.tab-3 {
-          background-color: #993412;
-        }
-        &.tab-4 {
-          background-color: #CC7018;
-        }
-        &.tab-5 {
-          background-color: #FFAC1E;
+      border-radius: 500px;
+      height: 1000px;
+      overflow: hidden;
+      position: relative;
+      top: -175px;
+      .tab-wrap-inner {
+        position: relative;
+        top: 175px;
+        .tab {
+          -webkit-transition: all 200ms ease-in-out;
+             -moz-transition: all 200ms ease-in-out;
+               -o-transition: all 200ms ease-in-out;
+                  transition: all 200ms ease-in-out;
+          height: 130px;
+          margin: 0;
+          text-align: right;
+          &.open {
+
+          }
+          &.closed {
+
+          }
+
+          &.tab-1 {
+            background-color: #262626;
+          }
+          &.tab-2 {
+            background-color: #5F2D1C;
+          }
+          &.tab-3 {
+            background-color: #993412;
+          }
+          &.tab-4 {
+            background-color: #CC7018;
+          }
+          &.tab-5 {
+            background-color: #FFAC1E;
+          }
+
+          &:hover {
+            background-color: #ff00ff;
+          }
         }
       }
     }
