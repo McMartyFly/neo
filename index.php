@@ -4,7 +4,9 @@
     <title>Soup Taste Good</title>
     <meta name="description" value="A Tri-blend of Flavors">
 
-    <link rel="stylesheet" type="text/css" href="/css/homepage.css">
+    <link rel="stylesheet" type="text/css" href="/style/reset.css">
+    <link rel="stylesheet" type="text/css" href="/style/homepage.css">
+    <link rel="stylesheet" type="text/css" href="/style/other.css">
   </head>
 
   <body>
