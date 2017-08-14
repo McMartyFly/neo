@@ -1,10 +1,76 @@
 body {
+  background-color: #cccccc;
 
-  .main {
-    height: 650px;
-    margin: 30px;
+  .nav {
+    background-color: #fff;
+    border-radius: 0 0 20px 20px;
+    height: 40px;
+    margin: 0px auto 15px;
     overflow: hidden;
+    padding: 0 30px;
     position: relative;
+    width: 1000px;
+
+    .moon-bg {
+      background-color: #fff;
+      border-radius: 500px;
+      height: 1000px;
+      right: -300px;
+      position: absolute;
+      top: -700px;
+      width: 1000px;
+    }
+    .tab-wrap {
+      border-radius: 500px;
+      height: 1000px;
+      overflow: hidden;
+      position: relative;
+      top: -700px;
+      .tab-wrap-inner {
+        position: relative;
+        top: 700px;
+        .tab {
+          -webkit-transition: all 200ms ease-in-out;
+             -moz-transition: all 200ms ease-in-out;
+               -o-transition: all 200ms ease-in-out;
+                  transition: all 200ms ease-in-out;
+          height: 102px;
+          margin: 0;
+          text-align: right;
+          &.open {
+
+          }
+          &.closed {
+
+          }
+
+          &.tab-1 {
+            background-color: #000;
+          }
+
+          &:hover {
+            background-color: #ff00ff;
+          }
+        }
+      }}
+  }
+  .footer {
+    background-color: #fff;
+    border-radius: 20px 20px 0 0;
+    height: 40px;
+    margin: 15px auto 0px;
+    padding: 0 30px;
+    width: 1000px;
+  }
+  .main {
+    background-color: #fff;
+    border-radius: 20px;
+    height: 510px;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 0px 30px;
+    position: relative;
+    width: 1000px;
 
     .moon-bg {
       background-color: #fff;
@@ -12,7 +78,7 @@ body {
       height: 1000px;
       left: -300px;
       position: absolute;
-      top: -176px;
+      top: -175px;
       width: 1000px;
     }
     .tab-wrap {
@@ -29,7 +95,7 @@ body {
              -moz-transition: all 200ms ease-in-out;
                -o-transition: all 200ms ease-in-out;
                   transition: all 200ms ease-in-out;
-          height: 130px;
+          height: 102px;
           margin: 0;
           text-align: right;
           &.open {

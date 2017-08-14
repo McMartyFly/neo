@@ -1,44 +1,95 @@
-body .main {
-  height: 650px;
-  margin: 30px;
-  overflow: hidden;
-  position: relative; }
-  body .main .moon-bg {
+body {
+  background-color: #cccccc; }
+  body .nav {
     background-color: #fff;
-    border-radius: 500px;
-    height: 1000px;
-    left: -300px;
-    position: absolute;
-    top: -176px;
-    width: 1000px; }
-  body .main .tab-wrap {
-    border-radius: 500px;
-    height: 1000px;
+    border-radius: 0 0 20px 20px;
+    height: 40px;
+    margin: 0px auto 15px;
     overflow: hidden;
+    padding: 0 30px;
     position: relative;
-    top: -175px; }
-    body .main .tab-wrap .tab-wrap-inner {
+    width: 1000px; }
+    body .nav .moon-bg {
+      background-color: #fff;
+      border-radius: 500px;
+      height: 1000px;
+      right: -300px;
+      position: absolute;
+      top: -700px;
+      width: 1000px; }
+    body .nav .tab-wrap {
+      border-radius: 500px;
+      height: 1000px;
+      overflow: hidden;
       position: relative;
-      top: 175px; }
-      body .main .tab-wrap .tab-wrap-inner .tab {
-        -webkit-transition: all 200ms ease-in-out;
-        -moz-transition: all 200ms ease-in-out;
-        -o-transition: all 200ms ease-in-out;
-        transition: all 200ms ease-in-out;
-        height: 130px;
-        margin: 0;
-        text-align: right; }
-        body .main .tab-wrap .tab-wrap-inner .tab.tab-1 {
-          background-color: #262626; }
-        body .main .tab-wrap .tab-wrap-inner .tab.tab-2 {
-          background-color: #5F2D1C; }
-        body .main .tab-wrap .tab-wrap-inner .tab.tab-3 {
-          background-color: #993412; }
-        body .main .tab-wrap .tab-wrap-inner .tab.tab-4 {
-          background-color: #CC7018; }
-        body .main .tab-wrap .tab-wrap-inner .tab.tab-5 {
-          background-color: #FFAC1E; }
-        body .main .tab-wrap .tab-wrap-inner .tab:hover {
-          background-color: #ff00ff; }
+      top: -700px; }
+      body .nav .tab-wrap .tab-wrap-inner {
+        position: relative;
+        top: 700px; }
+        body .nav .tab-wrap .tab-wrap-inner .tab {
+          -webkit-transition: all 200ms ease-in-out;
+          -moz-transition: all 200ms ease-in-out;
+          -o-transition: all 200ms ease-in-out;
+          transition: all 200ms ease-in-out;
+          height: 102px;
+          margin: 0;
+          text-align: right; }
+          body .nav .tab-wrap .tab-wrap-inner .tab.tab-1 {
+            background-color: #000; }
+          body .nav .tab-wrap .tab-wrap-inner .tab:hover {
+            background-color: #ff00ff; }
+  body .footer {
+    background-color: #fff;
+    border-radius: 20px 20px 0 0;
+    height: 40px;
+    margin: 15px auto 0px;
+    padding: 0 30px;
+    width: 1000px; }
+  body .main {
+    background-color: #fff;
+    border-radius: 20px;
+    height: 510px;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 0px 30px;
+    position: relative;
+    width: 1000px; }
+    body .main .moon-bg {
+      background-color: #fff;
+      border-radius: 500px;
+      height: 1000px;
+      left: -300px;
+      position: absolute;
+      top: -175px;
+      width: 1000px; }
+    body .main .tab-wrap {
+      border-radius: 500px;
+      height: 1000px;
+      overflow: hidden;
+      position: relative;
+      top: -175px; }
+      body .main .tab-wrap .tab-wrap-inner {
+        position: relative;
+        top: 175px; }
+        body .main .tab-wrap .tab-wrap-inner .tab {
+          -webkit-transition: all 200ms ease-in-out;
+          -moz-transition: all 200ms ease-in-out;
+          -o-transition: all 200ms ease-in-out;
+          transition: all 200ms ease-in-out;
+          height: 102px;
+          margin: 0;
+          text-align: right; }
+          body .main .tab-wrap .tab-wrap-inner .tab.tab-1 {
+            background-color: #262626; }
+          body .main .tab-wrap .tab-wrap-inner .tab.tab-2 {
+            background-color: #5F2D1C; }
+          body .main .tab-wrap .tab-wrap-inner .tab.tab-3 {
+            background-color: #993412; }
+          body .main .tab-wrap .tab-wrap-inner .tab.tab-4 {
+            background-color: #CC7018; }
+          body .main .tab-wrap .tab-wrap-inner .tab.tab-5 {
+            background-color: #FFAC1E; }
+          body .main .tab-wrap .tab-wrap-inner .tab:hover {
+            background-color: #ff00ff; }
 
 /*# sourceMappingURL=homepage.css.map */

@@ -13,7 +13,14 @@
   </head>
 
   <body>
-
+    <div class="nav">
+      <div class="tab-wrap">
+        <div class="tab-wrap-inner">
+          <div class="tab tab-1">Resume</div>
+        </div>
+      </div>
+      <div class="moon-bg"></div>
+    </div>
     <div class="main">
       <div class="tab-wrap">
         <div class="tab-wrap-inner">
@@ -26,6 +33,7 @@
       </div>
       <div class="moon-bg"></div>
     </div>
+    <div class="footer"></div>
 
   </body>
 </html>
