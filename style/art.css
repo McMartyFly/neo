@@ -1,0 +1,14 @@
+.art body .nav {
+  background-color: green;
+  height: 60px; }
+  .art body .nav ul {
+    text-align: center;
+    width: 100%; }
+    .art body .nav ul li {
+      display: inline-block;
+      width: 33%; }
+.art body .banner-wrap img {
+  height: 350px;
+  width: 100%; }
+
+/*# sourceMappingURL=art.css.map */

@@ -1,0 +1,14 @@
+.cast body .nav {
+  background-color: yellow;
+  height: 60px; }
+  .cast body .nav ul {
+    text-align: center;
+    width: 100%; }
+    .cast body .nav ul li {
+      display: inline-block;
+      width: 33%; }
+.cast body .banner-wrap img {
+  height: 350px;
+  width: 100%; }
+
+/*# sourceMappingURL=cast.css.map */

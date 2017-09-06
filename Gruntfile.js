@@ -6,7 +6,8 @@ module.exports = function(grunt) {
 				files: {
           'style/reset.css'    : 'sass/reset.scss',
 					'style/homepage.css' : 'sass/homepage.scss',
-          'style/other.css'    : 'sass/other.scss'
+          'style/cast.css'    : 'sass/cast.scss',
+					'style/art.css'    : 'sass/art.scss'
 				}
 			}
 		},
