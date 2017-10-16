@@ -13,16 +13,43 @@
 
   <body>
 
-    <div class="nav">
+    <div class="splash-wrap">
       <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/cast">Cast</a></li>
-        <li><a href="/art">Art</a></li>
+        <li>
+          <div class="mask aa"></div>
+          <div class="mask bb"></div>
+        </li>
+        <li>
+          <div class="mask cc"></div>
+          <div class="mask dd"></div>
+        </li>
+        <li>
+          <div class="mask ee"></div>
+        </li>
+        <li>
+          <div class="mask ff"></div>
+          <div class="mask gg"></div>
+        </li>
+        <li>
+          <div class="mask hh"></div>
+          <div class="mask ii"></div>
+          <div class="mask jj"></div>
+        </li>
+        <li>
+          <div class="mask kk"></div>
+        </li>
+        <li>
+          <div class="mask ll"></div>
+          <div class="mask mm"></div>
+        </li>
+        <li>
+          <div class="mask nn"></div>
+        </li>
+        <li>
+          <div class="mask oo"></div>
+          <div class="mask pp"></div>
+        </li>
       </ul>
-    </div>
-
-    <div class="banner-wrap">
-      <img src="http://placekitten.com/g/1200/400" />
     </div>
 
   </body>

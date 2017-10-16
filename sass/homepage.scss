@@ -1,22 +1,109 @@
 .homepage {
   body {
-    .nav {
-      background-color: red;
-      height: 60px;
-
+    background-color: black;
+    .splash-wrap {
       ul {
-        text-align: center;
-        width: 100%;
+        margin: 50px auto;
+        width: 1000px;
         li {
+          background-color: white;
           display: inline-block;
-          width: 33%;
+          height: 100px;
+          margin: 0 5px;
+          position: relative;
+          width: 96px;
+          .mask {
+            position: absolute;
+            &.aa {
+              background-color: black;
+              height: 15px;
+              left: 0px;
+              top: 70px;
+              width: 60px;
+            }
+            &.bb {
+              background-color: black;
+              height: 15px;
+              right: 0px;
+              top: 40px;
+              width: 60px;
+            }
+            &.cc,
+            &.ff,
+            &.ll {
+              background-color: black;
+              height: 29px;
+              right: 15px;
+              top: 40px;
+              width: 67px;
+            }
+            &.dd,
+            &.gg,
+            &.mm {
+              background-color: black;
+              height: 15px;
+              right: 15px;
+              top: 85px;
+              width: 67px;
+            }
+            &.ee {
+              background-color: black;
+              height: 85px;
+              right: 0px;
+              top: 0px;
+              width: 50px;
+            }
+            &.hh {
+              background-color: black;
+              height: 30px;
+              right: 16px;
+              top: 70px;
+              width: 64px;
+            }
+            &.ii {
+              background-color: black;
+              height: 15px;
+              right: 0px;
+              top: 55px;
+              width: 16px;
+            }
+            &.jj {
+              background-color: black;
+              height: 16px;
+              right: 16px;
+              top: 25px;
+              width: 63px;
+            }
+            &.kk {
+              background-color: black;
+              height: 68px;
+              right: 0px;
+              top: 16px;
+              width: 50px;
+            }
+            &.nn {
+              background-color: black;
+              height: 68px;
+              right: 42px;
+              top: 16px;
+              width: 42px;
+            }
+            &.oo {
+              background-color: black;
+              height: 15px;
+              right: 0px;
+              top: 40px;
+              width: 60px;
+            }
+            &.pp {
+              background-color: black;
+              height: 15px;
+              right: 0px;
+              top: 70px;
+              width: 60px;
+            }
+          }
         }
-      }
-    }
-    .banner-wrap {
-      img {
-        height: 350px;
-        width: 100%;
       }
     }
   }
