@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="homepage">
   <head>
-    <title>Salarcade</title>
+    <title>salarcade</title>
     <meta name="description" value="A Tri-blend of Flavors">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
@@ -51,6 +51,12 @@
         </li>
       </ul>
     </div>
+
+    <div class="screen-wrap">
+      <div class="screen"></div>
+    </div>
+
+    <div class="controls-wrap"></div>
 
   </body>
 </html>

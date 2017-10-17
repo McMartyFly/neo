@@ -1,88 +1,126 @@
 .homepage body {
-  background-color: black; }
-  .homepage body .splash-wrap ul {
-    margin: 50px auto;
-    width: 1000px; }
-    .homepage body .splash-wrap ul li {
-      background-color: white;
-      display: inline-block;
-      height: 100px;
-      margin: 0 5px;
+  background-color: #666666; }
+  .homepage body .splash-wrap {
+    background-color: red;
+    border: 50px solid yellow;
+    height: 150px;
+    margin: 0 auto;
+    width: 1100px; }
+    .homepage body .splash-wrap ul {
+      margin: 50px auto;
+      padding: 0 0 0 15px;
+      width: 1000px; }
+      .homepage body .splash-wrap ul li {
+        background-color: white;
+        display: inline-block;
+        height: 100px;
+        margin: 0 5px;
+        position: relative;
+        width: 96px; }
+        .homepage body .splash-wrap ul li .mask {
+          position: absolute; }
+          .homepage body .splash-wrap ul li .mask.aa {
+            background-color: black;
+            height: 15px;
+            left: 0px;
+            top: 70px;
+            width: 60px; }
+          .homepage body .splash-wrap ul li .mask.bb {
+            background-color: black;
+            height: 15px;
+            right: 0px;
+            top: 40px;
+            width: 60px; }
+          .homepage body .splash-wrap ul li .mask.cc, .homepage body .splash-wrap ul li .mask.ff, .homepage body .splash-wrap ul li .mask.ll {
+            background-color: black;
+            height: 29px;
+            right: 15px;
+            top: 40px;
+            width: 67px; }
+          .homepage body .splash-wrap ul li .mask.dd, .homepage body .splash-wrap ul li .mask.gg, .homepage body .splash-wrap ul li .mask.mm {
+            background-color: black;
+            height: 15px;
+            right: 15px;
+            top: 85px;
+            width: 67px; }
+          .homepage body .splash-wrap ul li .mask.ee {
+            background-color: black;
+            height: 85px;
+            right: 0px;
+            top: 0px;
+            width: 50px; }
+          .homepage body .splash-wrap ul li .mask.hh {
+            background-color: black;
+            height: 30px;
+            right: 16px;
+            top: 70px;
+            width: 64px; }
+          .homepage body .splash-wrap ul li .mask.ii {
+            background-color: black;
+            height: 15px;
+            right: 0px;
+            top: 55px;
+            width: 16px; }
+          .homepage body .splash-wrap ul li .mask.jj {
+            background-color: black;
+            height: 16px;
+            right: 16px;
+            top: 25px;
+            width: 63px; }
+          .homepage body .splash-wrap ul li .mask.kk {
+            background-color: black;
+            height: 68px;
+            right: 0px;
+            top: 16px;
+            width: 50px; }
+          .homepage body .splash-wrap ul li .mask.nn {
+            background-color: black;
+            height: 68px;
+            right: 42px;
+            top: 16px;
+            width: 42px; }
+          .homepage body .splash-wrap ul li .mask.oo {
+            background-color: black;
+            height: 15px;
+            right: 0px;
+            top: 40px;
+            width: 60px; }
+          .homepage body .splash-wrap ul li .mask.pp {
+            background-color: black;
+            height: 15px;
+            right: 0px;
+            top: 70px;
+            width: 60px; }
+  .homepage body .screen-wrap {
+    background-color: blue;
+    border: 50px solid green;
+    border-top: none;
+    height: 735px;
+    margin: 0 auto;
+    padding-top: 35px;
+    width: 1100px; }
+    .homepage body .screen-wrap .screen {
+      background-color: #000;
+      border-radius: 50%/10%;
+      height: 700px;
+      margin: 0 auto;
       position: relative;
-      width: 96px; }
-      .homepage body .splash-wrap ul li .mask {
-        position: absolute; }
-        .homepage body .splash-wrap ul li .mask.aa {
-          background-color: black;
-          height: 15px;
-          left: 0px;
-          top: 70px;
-          width: 60px; }
-        .homepage body .splash-wrap ul li .mask.bb {
-          background-color: black;
-          height: 15px;
-          right: 0px;
-          top: 40px;
-          width: 60px; }
-        .homepage body .splash-wrap ul li .mask.cc, .homepage body .splash-wrap ul li .mask.ff, .homepage body .splash-wrap ul li .mask.ll {
-          background-color: black;
-          height: 29px;
-          right: 15px;
-          top: 40px;
-          width: 67px; }
-        .homepage body .splash-wrap ul li .mask.dd, .homepage body .splash-wrap ul li .mask.gg, .homepage body .splash-wrap ul li .mask.mm {
-          background-color: black;
-          height: 15px;
-          right: 15px;
-          top: 85px;
-          width: 67px; }
-        .homepage body .splash-wrap ul li .mask.ee {
-          background-color: black;
-          height: 85px;
-          right: 0px;
-          top: 0px;
-          width: 50px; }
-        .homepage body .splash-wrap ul li .mask.hh {
-          background-color: black;
-          height: 30px;
-          right: 16px;
-          top: 70px;
-          width: 64px; }
-        .homepage body .splash-wrap ul li .mask.ii {
-          background-color: black;
-          height: 15px;
-          right: 0px;
-          top: 55px;
-          width: 16px; }
-        .homepage body .splash-wrap ul li .mask.jj {
-          background-color: black;
-          height: 16px;
-          right: 16px;
-          top: 25px;
-          width: 63px; }
-        .homepage body .splash-wrap ul li .mask.kk {
-          background-color: black;
-          height: 68px;
-          right: 0px;
-          top: 16px;
-          width: 50px; }
-        .homepage body .splash-wrap ul li .mask.nn {
-          background-color: black;
-          height: 68px;
-          right: 42px;
-          top: 16px;
-          width: 42px; }
-        .homepage body .splash-wrap ul li .mask.oo {
-          background-color: black;
-          height: 15px;
-          right: 0px;
-          top: 40px;
-          width: 60px; }
-        .homepage body .splash-wrap ul li .mask.pp {
-          background-color: black;
-          height: 15px;
-          right: 0px;
-          top: 70px;
-          width: 60px; }
+      width: 930px; }
+      .homepage body .screen-wrap .screen:before {
+        background: inherit;
+        border-radius: 5%/50%;
+        bottom: 9%;
+        content: '';
+        left: -5%;
+        position: absolute;
+        right: -5%;
+        top: 9%; }
+  .homepage body .controls-wrap {
+    background-color: purple;
+    border: 50px solid yellow;
+    border-top: none;
+    height: 150px;
+    margin: 0 auto;
+    width: 1100px; }
 
 /*# sourceMappingURL=homepage.css.map */

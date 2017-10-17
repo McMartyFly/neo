@@ -1,9 +1,15 @@
 .homepage {
   body {
-    background-color: black;
+    background-color: #666666;
     .splash-wrap {
+      background-color: red;
+      border: 50px solid yellow;
+      height: 150px;
+      margin: 0 auto;
+      width: 1100px;
       ul {
         margin: 50px auto;
+        padding: 0 0 0 15px;
         width: 1000px;
         li {
           background-color: white;
@@ -105,6 +111,41 @@
           }
         }
       }
+    }
+    .screen-wrap {
+      background-color: blue;
+      border: 50px solid green;
+      border-top: none;
+      height: 735px;
+      margin: 0 auto;
+      padding-top: 35px;
+      width: 1100px;
+      .screen {
+        background-color: #000;
+        border-radius: 50%/10%;
+        height: 700px;
+        margin: 0 auto;
+        position: relative;
+        width: 930px;
+        &:before {
+          background: inherit;
+          border-radius: 5%/50%;
+          bottom: 9%;
+          content: '';
+          left: -5%;
+          position: absolute;
+          right: -5%;
+          top: 9%;
+        }
+      }
+    }
+    .controls-wrap {
+      background-color: purple;
+      border: 50px solid yellow;
+      border-top: none;
+      height: 150px;
+      margin: 0 auto;
+      width: 1100px;
     }
   }
 }
