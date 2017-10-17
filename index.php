@@ -13,6 +13,7 @@
 
   <body>
 
+    <div class="frame"></div>
     <div class="splash-wrap">
       <ul>
         <li>
@@ -53,7 +54,9 @@
     </div>
 
     <div class="screen-wrap">
-      <div class="screen"></div>
+      <div class="screen">
+        <p>P1 PRESS START</p>
+      </div>
     </div>
 
     <div class="controls-wrap">

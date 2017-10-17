@@ -1,11 +1,19 @@
 .homepage {
   body {
     background-color: #666666;
+    .frame {
+      border-bottom: 30px solid #660000;
+	    border-left: 100px solid transparent;
+	    border-right: 100px solid transparent;
+	    height: 0;
+      margin: 20px auto 0;
+	    width: 1000px;
+    }
     .splash-wrap {
-      background-color: red;
+      background-color: #660000;
       border: 50px solid yellow;
       height: 150px;
-      margin: 20px auto 0;
+      margin: 0 auto;
       width: 1100px;
       ul {
         margin: 26px auto 0 ;
@@ -127,6 +135,14 @@
         margin: 0 auto;
         position: relative;
         width: 930px;
+        p {
+          color: #fff;
+          font-family: "Emulogic";
+          font-size: 50px;
+          position: relative;
+          text-align: center;
+          top: 300px;
+        }
         &:before {
           background: inherit;
           border-radius: 5%/50%;
