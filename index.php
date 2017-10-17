@@ -56,7 +56,30 @@
       <div class="screen"></div>
     </div>
 
-    <div class="controls-wrap"></div>
+    <div class="controls-wrap">
+
+      <div class="stick-wrap">
+        <div class="base">
+          <div class="pole">
+            <div class="ball"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="buttons-wrap">
+        <div class="button1-base1">
+          <div class="button1-base2">
+            <div class="button1-base3"></div>
+          </div>
+        </div>
+        <div class="button2-base1">
+          <div class="button2-base2">
+            <div class="button2-base3"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
 
   </body>
 </html>

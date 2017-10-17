@@ -5,10 +5,10 @@
       background-color: red;
       border: 50px solid yellow;
       height: 150px;
-      margin: 0 auto;
+      margin: 20px auto 0;
       width: 1100px;
       ul {
-        margin: 50px auto;
+        margin: 26px auto 0 ;
         padding: 0 0 0 15px;
         width: 1000px;
         li {
@@ -145,7 +145,92 @@
       border-top: none;
       height: 150px;
       margin: 0 auto;
+      position: relative;
       width: 1100px;
+      .buttons-wrap {
+        left: 550px;
+        position: relative;
+        .button1-base1 {
+          background-color: red;
+          border-radius: 80px/15px;
+          height: 30px;
+          position: relative;
+          top: 70px;
+          width: 160px;
+          .button1-base2 {
+            background-color: blue;
+            border-radius: 80px/15px;
+            height: 50px;
+            left: 5px;
+            position: relative;
+            top: -23px;
+            width: 150px;
+            .button1-base3 {
+              background-color: red;
+              border-radius: 80px/15px;
+              height: 30px;
+              position: relative;
+              width: 150px;
+            }
+          }
+        }
+        .button2-base1 {
+          background-color: red;
+          border-radius: 80px/15px;
+          height: 30px;
+          left: 192px;
+          position: relative;
+          top: 40px;
+          width: 160px;
+          .button2-base2 {
+            background-color: blue;
+            border-radius: 80px/15px;
+            height: 50px;
+            left: 5px;
+            position: relative;
+            top: -23px;
+            width: 150px;
+            .button2-base3 {
+              background-color: red;
+              border-radius: 80px/15px;
+              height: 30px;
+              position: relative;
+              width: 150px;
+            }
+          }
+        }
+      }
+      .stick-wrap {
+        left: 200px;
+        position: relative;
+        top: 100px;
+        .base {
+	        -webkit-border-radius: 100px / 15px;
+             -moz-border-radius: 100px / 15px;
+	                border-radius: 100px / 15px;
+          background-color: #000;
+          height: 30px;
+          width: 200px;
+          .pole {
+            background-color: #ccc;
+            border-radius: 15px/5px;
+            height: 200px;
+            left: 82px;
+            position: absolute;
+            top: -180px;
+            width: 35px;
+            .ball {
+              background-color: red;
+              border-radius: 75px;
+              height: 150px;
+              left: -57px;
+              position: absolute;
+              top: -55px;
+              width: 150px;
+            }
+          }
+        }
+      }
     }
   }
 }
