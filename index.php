@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="homepage">
   <head>
-    <title>Soup Taste Good</title>
+    <title>Salarcade</title>
     <meta name="description" value="A Tri-blend of Flavors">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
