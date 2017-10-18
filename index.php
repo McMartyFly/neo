@@ -4,6 +4,8 @@
     <title>salarcade</title>
     <meta name="description" value="A Tri-blend of Flavors">
 
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="js/scripts.js"></script>
 
