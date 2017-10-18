@@ -139,7 +139,8 @@
     width: 1100px; }
     .homepage body .controls-wrap .buttons-wrap {
       left: 550px;
-      position: relative; }
+      position: relative;
+      width: 0; }
       .homepage body .controls-wrap .buttons-wrap .button1-base1 {
         background-color: red;
         border-radius: 80px/15px;
@@ -186,7 +187,8 @@
     .homepage body .controls-wrap .stick-wrap {
       left: 200px;
       position: relative;
-      top: 100px; }
+      top: 100px;
+      width: 0; }
       .homepage body .controls-wrap .stick-wrap .base {
         -webkit-border-radius: 100px / 15px;
         -moz-border-radius: 100px / 15px;

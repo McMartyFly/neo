@@ -166,6 +166,7 @@
       .buttons-wrap {
         left: 550px;
         position: relative;
+        width: 0;
         .button1-base1 {
           background-color: red;
           border-radius: 80px/15px;
@@ -220,6 +221,7 @@
         left: 200px;
         position: relative;
         top: 100px;
+        width: 0;
         .base {
 	        -webkit-border-radius: 100px / 15px;
              -moz-border-radius: 100px / 15px;
