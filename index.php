@@ -2,6 +2,7 @@
 <html class="homepage">
   <head>
     <title>salarcade</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" value="A Tri-blend of Flavors">
 
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
