@@ -63,6 +63,7 @@
     </div>
 
     <div class="controls-wrap">
+      <div class="controls-bg"></div>
 
       <div class="stick-wrap">
         <div class="base">

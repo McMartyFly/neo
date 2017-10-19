@@ -2,7 +2,7 @@
   body {
     background-color: #666666;
     .frame {
-      border-bottom: 30px solid #660000;
+      border-bottom: 30px solid #990000;
 	    border-left: 100px solid transparent;
 	    border-right: 100px solid transparent;
 	    height: 0;
@@ -11,7 +11,7 @@
     }
     .splash-wrap {
       background-color: #660000;
-      border: 50px solid yellow;
+      border: 50px solid #1a1a1a;
       height: 150px;
       margin: 0 auto;
       width: 1100px;
@@ -121,8 +121,21 @@
       }
     }
     .screen-wrap {
-      background-color: blue;
-      border: 50px solid green;
+      border: 50px solid white;
+      -webkit-border-image:
+      -webkit-gradient(linear, 0 0, 0 100%, from(black), to(rgba(0, 0, 0, 0))) 1 100%;
+    -webkit-border-image:
+      -webkit-linear-gradient(black, rgba(0, 0, 0, 0)) 1 100%;
+    -moz-border-image:
+      -moz-linear-gradient(black, rgba(0, 0, 0, 0)) 1 100%;
+    -o-border-image:
+      -o-linear-gradient(black, rgba(0, 0, 0, 0)) 1 100%;
+    border-image:
+      linear-gradient(to bottom, black, rgba(0, 0, 0, 0)) 1 100%;
+      background-color: #404040;
+      // border: 50px solid #0d0d0d;
+
+      border-bottom: none;
       border-top: none;
       height: 735px;
       margin: 0 auto;
@@ -156,26 +169,32 @@
       }
     }
     .controls-wrap {
-      background-color: purple;
-      border: 50px solid yellow;
-      border-top: none;
+      background-color: #660000;
+      border: 50px solid #1a1a1a;
+      border-top: 50px solid #0d0d0d;
       height: 150px;
       margin: 0 auto;
       position: relative;
       width: 1100px;
+      .controls-bg {
+        background-color: #330000;
+        height: 84px;
+        position: absolute;
+        width: 1100px;
+      }
       .buttons-wrap {
         left: 550px;
         position: relative;
         width: 0;
         .button1-base1 {
-          background-color: red;
+          background-color: #ff0000;
           border-radius: 80px/15px;
           height: 30px;
           position: relative;
           top: 70px;
           width: 160px;
           .button1-base2 {
-            background-color: blue;
+            background-color: #b30000;
             border-radius: 80px/15px;
             height: 50px;
             left: 5px;
@@ -183,7 +202,7 @@
             top: -23px;
             width: 150px;
             .button1-base3 {
-              background-color: red;
+              background-color: #ff0000;
               border-radius: 80px/15px;
               height: 30px;
               position: relative;
@@ -192,7 +211,7 @@
           }
         }
         .button2-base1 {
-          background-color: red;
+          background-color: #ff0000;
           border-radius: 80px/15px;
           height: 30px;
           left: 192px;
@@ -200,7 +219,7 @@
           top: 40px;
           width: 160px;
           .button2-base2 {
-            background-color: blue;
+            background-color: #b30000;
             border-radius: 80px/15px;
             height: 50px;
             left: 5px;
@@ -208,7 +227,7 @@
             top: -23px;
             width: 150px;
             .button2-base3 {
-              background-color: red;
+              background-color: #ff0000;
               border-radius: 80px/15px;
               height: 30px;
               position: relative;
