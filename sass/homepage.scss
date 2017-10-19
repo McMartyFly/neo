@@ -185,7 +185,7 @@
         .screen-inner {
           background-image:
             linear-gradient(
-              #333333,
+              #262626,
               #cccccc
             );
           background-color: #404040;
@@ -223,16 +223,102 @@
       }
       .controls-outer {
         background-color: #1a1a1a;
-        height: 250px;
+        height: 450px;
         width: 100%;
+        .controls-inner-bottom {
+          background-color: #660000;
+          height: 240px;
+          margin: 0 auto;
+          width: 92%;
+          .coin-panel-outer {
+            background-color: #1a1a1a;
+            border-radius: 20px 20px 0 0;
+            height: 200px;
+            margin: 0 auto;
+            position: relative;
+            top: 40px;
+            width: 45%;
+            .coin-slot1 {
+              background-image:
+                linear-gradient(
+                  #990000,
+                  #ff0000
+                );
+              border: 4px solid #ff8080;
+              border-radius: 10px;
+              height: 100px;
+              left: 100px;
+              position: absolute;
+              top: 45px;
+              width: 80px;
+              p {
+                color: #ff8080;
+                font-family: Arial, sans-serif;
+                font-size: 24px;
+                font-weight: 900;
+                left: 37px;
+                top: 30px;
+                position: absolute;
+              }
+              .coin-slot1-inner {
+                background-color: #330000;
+                border: 4px solid #ff8080;
+                border-radius: 5px;
+                height: 80px;
+                left: 10px;
+                position: relative;
+                top: 5px;
+                width: 10px;
+              }
+            }
+            .coin-slot2 {
+              background-image:
+                linear-gradient(
+                  #990000,
+                  #ff0000
+                );
+              border: 4px solid #ff8080;
+              border-radius: 10px;
+              height: 100px;
+              left: 310px;
+              position: absolute;
+              top: 45px;
+              width: 80px;
+              p {
+                color: #ff8080;
+                font-family: Arial, sans-serif;
+                font-size: 24px;
+                font-weight: 900;
+                left: 37px;
+                top: 30px;
+                position: absolute;
+              }
+              .coin-slot2-inner {
+                background-color: #330000;
+                border: 4px solid #ff8080;
+                border-radius: 5px;
+                height: 80px;
+                left: 10px;
+                position: relative;
+                top: 5px;
+                width: 10px;
+              }
+            }
+          }
+        }
         .controls-inner {
           background-color: #330000;
-          height: 250px;
+          height: 210px;
           margin: 0 auto;
           width: 92%;
           .controls-inner2 {
+            background-image:
+              linear-gradient(
+                #b38f00,
+                #ffcc00 40%
+              );
             background-color: #ffcc00;
-            border-bottom: 40px solid #990000;
+
             height: 60px;
             position: relative;
             top: 150px;

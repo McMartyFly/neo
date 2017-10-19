@@ -98,6 +98,23 @@
 
           </div>
         </div>
+        <div class="controls-inner-bottom">
+          <div class="coin-panel-outer">
+
+            <div class="coin-slot1">
+              <p>25&#162;</p>
+              <div class="coin-slot1-inner">
+              </div>
+            </div>
+
+            <div class="coin-slot2">
+              <p>25&#162;</p>
+              <div class="coin-slot2-inner">
+              </div>
+            </div>
+            
+          </div>
+        </div>
       </div>
 
     </div>
