@@ -1,227 +1,272 @@
 .homepage body {
   background-color: #666666; }
-  .homepage body .frame {
-    border-bottom: 30px solid #990000;
-    border-left: 100px solid transparent;
-    border-right: 100px solid transparent;
-    height: 0;
-    margin: 20px auto 0;
-    width: 1000px; }
-  .homepage body .splash-wrap {
-    background-color: #660000;
-    border: 50px solid #1a1a1a;
-    height: 150px;
-    margin: 0 auto;
-    width: 1100px; }
-    .homepage body .splash-wrap ul {
-      margin: 26px auto 0;
-      padding: 0 0 0 15px;
-      width: 1000px; }
-      .homepage body .splash-wrap ul li {
-        background-color: white;
-        display: inline-block;
-        height: 100px;
-        margin: 0 5px;
-        position: relative;
-        width: 96px; }
-        .homepage body .splash-wrap ul li .mask {
-          position: absolute; }
-          .homepage body .splash-wrap ul li .mask.aa {
-            background-color: black;
-            height: 15px;
-            left: 0px;
-            top: 70px;
-            width: 60px; }
-          .homepage body .splash-wrap ul li .mask.bb {
-            background-color: black;
-            height: 15px;
-            right: 0px;
-            top: 40px;
-            width: 60px; }
-          .homepage body .splash-wrap ul li .mask.cc, .homepage body .splash-wrap ul li .mask.ff, .homepage body .splash-wrap ul li .mask.ll {
-            background-color: black;
-            height: 29px;
-            right: 15px;
-            top: 40px;
-            width: 67px; }
-          .homepage body .splash-wrap ul li .mask.dd, .homepage body .splash-wrap ul li .mask.gg, .homepage body .splash-wrap ul li .mask.mm {
-            background-color: black;
-            height: 15px;
-            right: 15px;
-            top: 85px;
-            width: 67px; }
-          .homepage body .splash-wrap ul li .mask.ee {
-            background-color: black;
-            height: 85px;
-            right: 0px;
-            top: 0px;
-            width: 50px; }
-          .homepage body .splash-wrap ul li .mask.hh {
-            background-color: black;
-            height: 30px;
-            right: 16px;
-            top: 70px;
-            width: 64px; }
-          .homepage body .splash-wrap ul li .mask.ii {
-            background-color: black;
-            height: 15px;
-            right: 0px;
-            top: 55px;
-            width: 16px; }
-          .homepage body .splash-wrap ul li .mask.jj {
-            background-color: black;
-            height: 16px;
-            right: 16px;
-            top: 25px;
-            width: 63px; }
-          .homepage body .splash-wrap ul li .mask.kk {
-            background-color: black;
-            height: 68px;
-            right: 0px;
-            top: 16px;
-            width: 50px; }
-          .homepage body .splash-wrap ul li .mask.nn {
-            background-color: black;
-            height: 68px;
-            right: 42px;
-            top: 16px;
-            width: 42px; }
-          .homepage body .splash-wrap ul li .mask.oo {
-            background-color: black;
-            height: 15px;
-            right: 0px;
-            top: 40px;
-            width: 60px; }
-          .homepage body .splash-wrap ul li .mask.pp {
-            background-color: black;
-            height: 15px;
-            right: 0px;
-            top: 70px;
-            width: 60px; }
-  .homepage body .screen-wrap {
-    border: 50px solid white;
-    -webkit-border-image: -webkit-gradient(linear, 0 0, 0 100%, from(black), to(rgba(0, 0, 0, 0))) 1 100%;
-    -webkit-border-image: -webkit-linear-gradient(black, rgba(0, 0, 0, 0)) 1 100%;
-    -moz-border-image: -moz-linear-gradient(black, rgba(0, 0, 0, 0)) 1 100%;
-    -o-border-image: -o-linear-gradient(black, rgba(0, 0, 0, 0)) 1 100%;
-    border-image: linear-gradient(to bottom, black, rgba(0, 0, 0, 0)) 1 100%;
-    background-color: #404040;
-    border-bottom: none;
-    border-top: none;
-    height: 735px;
-    margin: 0 auto;
-    padding-top: 35px;
-    width: 1100px; }
-    .homepage body .screen-wrap .screen {
-      background-color: #000;
-      border-radius: 50%/10%;
-      height: 700px;
+  .homepage body .arcade-wrap {
+    height: auto;
+    margin: 10px auto;
+    position: relative;
+    width: 1200px; }
+    .homepage body .arcade-wrap .frame {
+      border-bottom: 30px solid #990000;
+      border-left: 100px solid transparent;
+      border-right: 100px solid transparent;
+      height: 0;
+      margin: 20px auto 0; }
+    .homepage body .arcade-wrap .splash-outer {
+      background-color: #1a1a1a;
+      height: 250px;
       margin: 0 auto;
       position: relative;
-      width: 930px; }
-      .homepage body .screen-wrap .screen p {
-        color: #fff;
-        font-family: 'Press Start 2P', cursive;
-        font-size: 50px;
+      width: 100%; }
+      .homepage body .arcade-wrap .splash-outer .splash-inner {
+        background-color: #660000;
+        height: 150px;
+        margin: 0 auto;
         position: relative;
-        text-align: center;
-        top: 300px; }
-      .homepage body .screen-wrap .screen:before {
-        background: inherit;
-        border-radius: 5%/50%;
-        bottom: 9%;
-        content: '';
-        left: -5%;
-        position: absolute;
-        right: -5%;
-        top: 9%; }
-  .homepage body .controls-wrap {
-    background-color: #660000;
-    border: 50px solid #1a1a1a;
-    border-top: 50px solid #0d0d0d;
-    height: 150px;
-    margin: 0 auto;
-    position: relative;
-    width: 1100px; }
-    .homepage body .controls-wrap .controls-bg {
-      background-color: #330000;
-      height: 84px;
-      position: absolute;
-      width: 1100px; }
-    .homepage body .controls-wrap .buttons-wrap {
-      left: 550px;
-      position: relative;
-      width: 0; }
-      .homepage body .controls-wrap .buttons-wrap .button1-base1 {
-        background-color: #ff0000;
-        border-radius: 80px/15px;
-        height: 30px;
-        position: relative;
-        top: 70px;
-        width: 160px; }
-        .homepage body .controls-wrap .buttons-wrap .button1-base1 .button1-base2 {
-          background-color: #b30000;
-          border-radius: 80px/15px;
-          height: 50px;
-          left: 5px;
+        top: 50px;
+        width: 92%; }
+        .homepage body .arcade-wrap .splash-outer .splash-inner .splash-inner2 {
+          background-color: #b3b3b3;
+          border-radius: 8px;
+          height: 120px;
+          margin: 0 auto;
           position: relative;
-          top: -23px;
-          width: 150px; }
-          .homepage body .controls-wrap .buttons-wrap .button1-base1 .button1-base2 .button1-base3 {
-            background-color: #ff0000;
-            border-radius: 80px/15px;
-            height: 30px;
+          top: 15px;
+          width: 95%; }
+          .homepage body .arcade-wrap .splash-outer .splash-inner .splash-inner2 ul {
             position: relative;
-            width: 150px; }
-      .homepage body .controls-wrap .buttons-wrap .button2-base1 {
-        background-color: #ff0000;
-        border-radius: 80px/15px;
-        height: 30px;
-        left: 192px;
-        position: relative;
-        top: 40px;
-        width: 160px; }
-        .homepage body .controls-wrap .buttons-wrap .button2-base1 .button2-base2 {
-          background-color: #b30000;
-          border-radius: 80px/15px;
-          height: 50px;
-          left: 5px;
+            text-align: center;
+            top: 10px; }
+            .homepage body .arcade-wrap .splash-outer .splash-inner .splash-inner2 ul li {
+              background-color: #ff9900;
+              border: 1px solid #000;
+              display: inline-block;
+              height: 100px;
+              margin-right: 5px;
+              position: relative;
+              width: 9%; }
+              .homepage body .arcade-wrap .splash-outer .splash-inner .splash-inner2 ul li:last-child {
+                margin-right: 0; }
+              .homepage body .arcade-wrap .splash-outer .splash-inner .splash-inner2 ul li:nth-child(-n+3) {
+                background-color: #ffcc00; }
+              .homepage body .arcade-wrap .splash-outer .splash-inner .splash-inner2 ul li:nth-child(n+6) {
+                background-color: #660000; }
+              .homepage body .arcade-wrap .splash-outer .splash-inner .splash-inner2 ul li .mask {
+                position: absolute; }
+                .homepage body .arcade-wrap .splash-outer .splash-inner .splash-inner2 ul li .mask.aa {
+                  background-color: #b3b3b3;
+                  border: 1px solid #000;
+                  border-left: none;
+                  height: 15px;
+                  left: -1px;
+                  top: 70px;
+                  width: 65%; }
+                .homepage body .arcade-wrap .splash-outer .splash-inner .splash-inner2 ul li .mask.bb {
+                  background-color: #b3b3b3;
+                  border: 1px solid #000;
+                  border-right: none;
+                  height: 15px;
+                  right: -1px;
+                  top: 40px;
+                  width: 65%; }
+                .homepage body .arcade-wrap .splash-outer .splash-inner .splash-inner2 ul li .mask.cc, .homepage body .arcade-wrap .splash-outer .splash-inner .splash-inner2 ul li .mask.ff, .homepage body .arcade-wrap .splash-outer .splash-inner .splash-inner2 ul li .mask.ll {
+                  background-color: #b3b3b3;
+                  border: 1px solid #000;
+                  height: 29px;
+                  right: 15%;
+                  top: 40px;
+                  width: 69%; }
+                .homepage body .arcade-wrap .splash-outer .splash-inner .splash-inner2 ul li .mask.dd, .homepage body .arcade-wrap .splash-outer .splash-inner .splash-inner2 ul li .mask.gg, .homepage body .arcade-wrap .splash-outer .splash-inner .splash-inner2 ul li .mask.mm {
+                  background-color: #b3b3b3;
+                  border: 1px solid #000;
+                  border-bottom: none;
+                  height: 15px;
+                  right: 15%;
+                  top: 85px;
+                  width: 69%; }
+                .homepage body .arcade-wrap .splash-outer .splash-inner .splash-inner2 ul li .mask.ee {
+                  background-color: #b3b3b3;
+                  border: 1px solid #000;
+                  border-right: none;
+                  border-top: none;
+                  height: 85px;
+                  right: -1px;
+                  top: -1px;
+                  width: 50%; }
+                .homepage body .arcade-wrap .splash-outer .splash-inner .splash-inner2 ul li .mask.hh {
+                  background-color: #b3b3b3;
+                  border: 1px solid #000;
+                  border-bottom: none;
+                  height: 30px;
+                  right: 16%;
+                  top: 70px;
+                  width: 68%; }
+                .homepage body .arcade-wrap .splash-outer .splash-inner .splash-inner2 ul li .mask.ii {
+                  background-color: #b3b3b3;
+                  border: 1px solid #000;
+                  border-right: none;
+                  height: 15px;
+                  right: -1px;
+                  top: 54px;
+                  width: 17%; }
+                .homepage body .arcade-wrap .splash-outer .splash-inner .splash-inner2 ul li .mask.jj {
+                  background-color: #b3b3b3;
+                  border: 1px solid #000;
+                  height: 16px;
+                  right: 16%;
+                  top: 25px;
+                  width: 68%; }
+                .homepage body .arcade-wrap .splash-outer .splash-inner .splash-inner2 ul li .mask.kk {
+                  background-color: #b3b3b3;
+                  border: 1px solid #000;
+                  border-right: none;
+                  height: 68px;
+                  right: -1px;
+                  top: 16px;
+                  width: 50%; }
+                .homepage body .arcade-wrap .splash-outer .splash-inner .splash-inner2 ul li .mask.nn {
+                  background-color: #b3b3b3;
+                  border: 1px solid #000;
+                  height: 68px;
+                  right: 44%;
+                  top: 16px;
+                  width: 42%; }
+                .homepage body .arcade-wrap .splash-outer .splash-inner .splash-inner2 ul li .mask.oo {
+                  background-color: #b3b3b3;
+                  border: 1px solid #000;
+                  border-right: none;
+                  height: 15px;
+                  right: -1px;
+                  top: 40px;
+                  width: 65%; }
+                .homepage body .arcade-wrap .splash-outer .splash-inner .splash-inner2 ul li .mask.pp {
+                  background-color: #b3b3b3;
+                  border: 1px solid #000;
+                  border-right: none;
+                  height: 15px;
+                  right: -1px;
+                  top: 70px;
+                  width: 65%; }
+    .homepage body .arcade-wrap .screen-outer {
+      background-image: linear-gradient(#000, #0d0d0d 60%, #4d4d4d 90%, #1a1a1a);
+      background-color: #0d0d0d;
+      height: 750px; }
+      .homepage body .arcade-wrap .screen-outer .screen-inner {
+        background-image: linear-gradient(#333333, #cccccc);
+        background-color: #404040;
+        height: 750px;
+        margin: 0 auto;
+        width: 92%; }
+        .homepage body .arcade-wrap .screen-outer .screen-inner .screen {
+          background-color: #000;
+          border-radius: 50%/10%;
+          height: 650px;
+          margin: 0 auto;
           position: relative;
-          top: -23px;
-          width: 150px; }
-          .homepage body .controls-wrap .buttons-wrap .button2-base1 .button2-base2 .button2-base3 {
-            background-color: #ff0000;
-            border-radius: 80px/15px;
-            height: 30px;
-            position: relative;
-            width: 150px; }
-    .homepage body .controls-wrap .stick-wrap {
-      left: 200px;
-      position: relative;
-      top: 100px;
-      width: 0; }
-      .homepage body .controls-wrap .stick-wrap .base {
-        -webkit-border-radius: 100px / 15px;
-        -moz-border-radius: 100px / 15px;
-        border-radius: 100px / 15px;
-        background-color: #000;
-        height: 30px;
-        width: 200px; }
-        .homepage body .controls-wrap .stick-wrap .base .pole {
-          background-color: #ccc;
-          border-radius: 15px/5px;
-          height: 200px;
-          left: 82px;
-          position: absolute;
-          top: -180px;
-          width: 35px; }
-          .homepage body .controls-wrap .stick-wrap .base .pole .ball {
-            background-color: red;
-            border-radius: 75px;
-            height: 150px;
-            left: -57px;
+          top: 50px;
+          width: 85%; }
+          .homepage body .arcade-wrap .screen-outer .screen-inner .screen:before {
+            background: inherit;
+            border-radius: 5%/50%;
+            bottom: 9%;
+            content: '';
+            left: -5%;
             position: absolute;
-            top: -55px;
-            width: 150px; }
+            right: -5%;
+            top: 9%; }
+          .homepage body .arcade-wrap .screen-outer .screen-inner .screen p {
+            color: #fff;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 50px;
+            position: relative;
+            text-align: center;
+            top: 300px; }
+    .homepage body .arcade-wrap .controls-outer {
+      background-color: #1a1a1a;
+      height: 250px;
+      width: 100%; }
+      .homepage body .arcade-wrap .controls-outer .controls-inner {
+        background-color: #330000;
+        height: 250px;
+        margin: 0 auto;
+        width: 92%; }
+        .homepage body .arcade-wrap .controls-outer .controls-inner .controls-inner2 {
+          background-color: #ffcc00;
+          border-bottom: 40px solid #990000;
+          height: 60px;
+          position: relative;
+          top: 150px;
+          width: 100%; }
+          .homepage body .arcade-wrap .controls-outer .controls-inner .controls-inner2 .stick-wrap {
+            left: 200px;
+            position: absolute;
+            top: 14px; }
+            .homepage body .arcade-wrap .controls-outer .controls-inner .controls-inner2 .stick-wrap .base {
+              -webkit-border-radius: 100px / 15px;
+              -moz-border-radius: 100px / 15px;
+              border-radius: 100px / 15px;
+              background-color: #000;
+              height: 30px;
+              width: 200px; }
+              .homepage body .arcade-wrap .controls-outer .controls-inner .controls-inner2 .stick-wrap .base .pole {
+                background-color: #ccc;
+                border-radius: 15px/5px;
+                height: 200px;
+                left: 82px;
+                position: absolute;
+                top: -180px;
+                width: 35px; }
+                .homepage body .arcade-wrap .controls-outer .controls-inner .controls-inner2 .stick-wrap .base .pole .ball {
+                  background-color: red;
+                  border-radius: 75px;
+                  height: 150px;
+                  left: -57px;
+                  position: absolute;
+                  top: -55px;
+                  width: 150px; }
+          .homepage body .arcade-wrap .controls-outer .controls-inner .controls-inner2 .buttons-wrap {
+            left: 550px;
+            position: absolute;
+            top: 17px; }
+            .homepage body .arcade-wrap .controls-outer .controls-inner .controls-inner2 .buttons-wrap .button1-base1 {
+              background-color: #ff0000;
+              border-radius: 80px/15px;
+              height: 30px;
+              position: absolute;
+              width: 160px; }
+              .homepage body .arcade-wrap .controls-outer .controls-inner .controls-inner2 .buttons-wrap .button1-base1 .button1-base2 {
+                background-color: #b30000;
+                border-radius: 80px/15px;
+                height: 50px;
+                left: 5px;
+                position: relative;
+                top: -23px;
+                width: 150px; }
+                .homepage body .arcade-wrap .controls-outer .controls-inner .controls-inner2 .buttons-wrap .button1-base1 .button1-base2 .button1-base3 {
+                  background-color: #ff0000;
+                  border-radius: 80px/15px;
+                  height: 30px;
+                  position: relative;
+                  width: 150px; }
+            .homepage body .arcade-wrap .controls-outer .controls-inner .controls-inner2 .buttons-wrap .button2-base1 {
+              background-color: #ff0000;
+              border-radius: 80px/15px;
+              height: 30px;
+              left: 192px;
+              position: absolute;
+              width: 160px; }
+              .homepage body .arcade-wrap .controls-outer .controls-inner .controls-inner2 .buttons-wrap .button2-base1 .button2-base2 {
+                background-color: #b30000;
+                border-radius: 80px/15px;
+                height: 50px;
+                left: 5px;
+                position: relative;
+                top: -23px;
+                width: 150px; }
+                .homepage body .arcade-wrap .controls-outer .controls-inner .controls-inner2 .buttons-wrap .button2-base1 .button2-base2 .button2-base3 {
+                  background-color: #ff0000;
+                  border-radius: 80px/15px;
+                  height: 30px;
+                  position: relative;
+                  width: 150px; }
 
 /*# sourceMappingURL=homepage.css.map */

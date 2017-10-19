@@ -16,72 +16,86 @@
 
   <body>
 
-    <div class="frame"></div>
-    <div class="splash-wrap">
-      <ul>
-        <li>
-          <div class="mask aa"></div>
-          <div class="mask bb"></div>
-        </li>
-        <li>
-          <div class="mask cc"></div>
-          <div class="mask dd"></div>
-        </li>
-        <li>
-          <div class="mask ee"></div>
-        </li>
-        <li>
-          <div class="mask ff"></div>
-          <div class="mask gg"></div>
-        </li>
-        <li>
-          <div class="mask hh"></div>
-          <div class="mask ii"></div>
-          <div class="mask jj"></div>
-        </li>
-        <li>
-          <div class="mask kk"></div>
-        </li>
-        <li>
-          <div class="mask ll"></div>
-          <div class="mask mm"></div>
-        </li>
-        <li>
-          <div class="mask nn"></div>
-        </li>
-        <li>
-          <div class="mask oo"></div>
-          <div class="mask pp"></div>
-        </li>
-      </ul>
-    </div>
+    <div class="arcade-wrap">
 
-    <div class="screen-wrap">
-      <div class="screen">
-        <p>P1 PRESS START</p>
-      </div>
-    </div>
+      <div class="frame"></div>
 
-    <div class="controls-wrap">
-      <div class="controls-bg"></div>
-
-      <div class="stick-wrap">
-        <div class="base">
-          <div class="pole">
-            <div class="ball"></div>
+      <div class="splash-outer">
+        <div class="splash-inner">
+          <div class="splash-inner2">
+            <ul>
+              <li>
+                <div class="mask aa"></div>
+                <div class="mask bb"></div>
+              </li>
+              <li>
+                <div class="mask cc"></div>
+                <div class="mask dd"></div>
+              </li>
+              <li>
+                <div class="mask ee"></div>
+              </li>
+              <li>
+                <div class="mask ff"></div>
+                <div class="mask gg"></div>
+              </li>
+              <li>
+                <div class="mask hh"></div>
+                <div class="mask ii"></div>
+                <div class="mask jj"></div>
+              </li>
+              <li>
+                <div class="mask kk"></div>
+              </li>
+              <li>
+                <div class="mask ll"></div>
+                <div class="mask mm"></div>
+              </li>
+              <li>
+                <div class="mask nn"></div>
+              </li>
+              <li>
+                <div class="mask oo"></div>
+                <div class="mask pp"></div>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
 
-      <div class="buttons-wrap">
-        <div class="button1-base1">
-          <div class="button1-base2">
-            <div class="button1-base3"></div>
+      <div class="screen-outer">
+        <div class="screen-inner">
+          <div class="screen">
+            <p>P1 PRESS START</p>
           </div>
         </div>
-        <div class="button2-base1">
-          <div class="button2-base2">
-            <div class="button2-base3"></div>
+      </div>
+
+      <div class="controls-outer">
+        <div class="controls-inner">
+          <div class="controls-inner2">
+
+            <div class="stick-wrap">
+              <div class="base">
+                <div class="pole">
+                  <div class="ball"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="buttons-wrap">
+              <div class="button1-base1">
+                <div class="button1-base2">
+                  <div class="button1-base3"></div>
+                </div>
+              </div>
+              <div class="button2-base1">
+                <div class="button2-base2">
+                  <div class="button2-base3"></div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
