@@ -78,7 +78,9 @@
             <div class="stick-wrap">
               <div class="base">
                 <div class="pole">
-                  <div class="ball"></div>
+                  <div class="ball">
+                    <div class="highlight"></div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -112,7 +114,7 @@
               <div class="coin-slot2-inner">
               </div>
             </div>
-            
+
           </div>
         </div>
       </div>

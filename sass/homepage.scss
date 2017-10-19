@@ -350,6 +350,15 @@
                     position: absolute;
                     top: -55px;
                     width: 150px;
+                    .highlight {
+                      background-color: #fff;
+                      border-radius: 30px 15px;
+                      height: 30px;
+                      left: 20px;
+                      position: absolute;
+                      top: 25px;
+                      width: 30px;
+                    }
                   }
                 }
               }

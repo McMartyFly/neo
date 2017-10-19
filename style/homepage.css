@@ -288,6 +288,14 @@
                   position: absolute;
                   top: -55px;
                   width: 150px; }
+                  .homepage body .arcade-wrap .controls-outer .controls-inner .controls-inner2 .stick-wrap .base .pole .ball .highlight {
+                    background-color: #fff;
+                    border-radius: 30px 15px;
+                    height: 30px;
+                    left: 20px;
+                    position: absolute;
+                    top: 25px;
+                    width: 30px; }
           .homepage body .arcade-wrap .controls-outer .controls-inner .controls-inner2 .buttons-wrap {
             left: 550px;
             position: absolute;
