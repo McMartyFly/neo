@@ -185,7 +185,7 @@
         .screen-inner {
           background-image:
             linear-gradient(
-              #262626,
+              #0d0d0d,
               #cccccc
             );
           background-color: #404040;
@@ -412,6 +412,222 @@
                     position: relative;
                     width: 150px;
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+      // setting zoom levels for the machine
+      &.fullview {
+        box-shadow: 0px 58px 60px #000;
+        margin: 5px auto 0;
+        width: 600px;
+        .frame {
+          border-bottom: 14px solid #990000;
+          margin: 10px auto 0;
+        }
+        .splash-outer {
+          height: 129px;
+          .splash-inner {
+            height: 84px;
+            top: 23px;
+            .splash-inner2 {
+              height: 66px;
+              top: 8px;
+              ul {
+                top: 7px;
+                li {
+                  height: 50px;
+                  margin: 0;
+                  .mask {
+                    &.aa,
+                    &.pp {
+                      height: 7px;
+                      top: 35px;
+                    }
+                    &.bb {
+                      height: 7px;
+                      top: 19px;
+                    }
+                    &.cc,
+                    &.ff,
+                    &.ll {
+                      height: 15px;
+                      top: 18px;
+                    }
+                    &.dd,
+                    &.gg,
+                    &.mm {
+                      height: 7px;
+                      top: 43px;
+                    }
+                    &.ee {
+                      height: 43px;
+                    }
+                    &.hh {
+                      height: 15px;
+                      top: 35px;
+                    }
+                    &.ii {
+                      height: 7px;
+                      top: 27px;
+                    }
+                    &.jj {
+                      height: 7px;
+                      top: 12px;
+                    }
+                    &.kk,
+                    &.nn {
+                      height: 34px;
+                      top: 8px;
+                    }
+                    &.oo {
+                      height: 7px;
+                      top: 19px;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        .screen-outer {
+          height: 375px;
+          .screen-inner {
+            height: 375px;
+            .screen {
+              height: 325px;
+              top: 27px;
+              p {
+                font-size: 25px;
+                top: 150px;
+              }
+            }
+          }
+        }
+        .controls-outer {
+          height: 225px;
+          .controls-inner {
+            height: 105px;
+            .controls-inner2 {
+              height: 30px;
+              top: 75px;
+              .stick-wrap {
+                left: 100px;
+                top: 7px;
+                .base {
+                  border-radius: 50px/8px;
+                  height: 15px;
+                  width: 100px;
+                  .pole {
+                    height: 100px;
+                    left: 42px;
+                    top: -90px;
+                    width: 17px;
+                    .ball {
+                      height: 75px;
+                      left: -29px;
+                      top: -26px;
+                      width: 75px;
+                      .highlight {
+                        border-radius: 15px 8px;
+                        height: 15px;
+                        left: 11px;
+                        top: 11px;
+                        width: 15px;
+                      }
+                    }
+                  }
+                }
+              }
+              .buttons-wrap {
+                left: 275px;
+                top: 8px;
+                .button1-base1 {
+                  border-radius: 40px/8px;
+                  height: 15px;
+                  width: 80px;
+                  .button1-base2 {
+                    border-radius: 40px/8px;
+                    height: 25px;
+                    left: 3px;
+                    top: -11px;
+                    width: 75px;
+                    .button1-base3 {
+                      border-radius: 40px/8px;
+                      height: 15px;
+                      width: 75px;
+                    }
+                  }
+                }
+                .button2-base1 {
+                  border-radius: 40px/8px;
+                  height: 15px;
+                  left: 96px;
+                  width: 80px;
+                  .button2-base2 {
+                    border-radius: 40px/8px;
+                    height: 25px;
+                    left: 3px;
+                    top: -11px;
+                    width: 75px;
+                    .button2-base3 {
+                      border-radius: 40px/8px;
+                      height: 15px;
+                      width: 75px;
+                    }
+                  }
+                }
+              }
+            }
+          }
+          .controls-inner-bottom {
+            height: 120px;
+            .coin-panel-outer {
+              border-radius: 10px 10px 0 0;
+              height: 100px;
+              top: 20px;
+              .coin-slot1 {
+                border: 2px solid #ff8080;
+                border-radius: 5px;
+                height: 50px;
+                left: 50px;
+                top: 23px;
+                width: 40px;
+                p {
+                  font-size: 12px;
+                  left: 18px;
+                  top: 15px;
+                }
+                .coin-slot1-inner {
+                  border: 2px solid #ff8080;
+                  border-radius: 3px;
+                  height: 40px;
+                  left: 5px;
+                  top: 3px;
+                  width: 5px;
+                }
+              }
+              .coin-slot2 {
+                border: 2px solid #ff8080;
+                border-radius: 5px;
+                height: 50px;
+                left: 155px;
+                top: 23px;
+                width: 40px;
+                p {
+                  font-size: 12px;
+                  left: 18px;
+                  top: 15px;
+                }
+                .coin-slot2-inner {
+                  border: 2px solid #ff8080;
+                  border-radius: 3px;
+                  height: 40px;
+                  left: 5px;
+                  top: 3px;
+                  width: 5px;
                 }
               }
             }

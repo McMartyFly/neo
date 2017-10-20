@@ -16,7 +16,7 @@
 
   <body>
 
-    <div class="arcade-wrap">
+    <div class="arcade-wrap fullview">
 
       <div class="frame"></div>
 
