@@ -214,9 +214,54 @@
               color: #fff;
               font-family: 'Press Start 2P', cursive;
               font-size: 50px;
+              padding-bottom: 20px;
               position: relative;
-              text-align: center;
-              top: 300px;
+              &.heading {
+                color: #ffff00;
+                font-size: 30px;
+                padding: 20px 0 50px;
+                text-align: center;
+              }
+              &.play-game-click {
+                cursor: pointer;
+                line-height: 30px;
+                text-align: center;
+                span {
+                  color: #f44242;
+                  text-decoration: underline;
+                }
+              }
+            }
+            a {
+              color: #fff;
+              display: block;
+              font-family: 'Press Start 2P', cursive;
+              font-size: 50px;
+              padding-bottom: 20px;
+              position: relative;
+              text-decoration: none;
+              &.linkedin {
+                &:hover {
+                  span {
+                    color: #60a4d2;
+                  }
+                }
+                span {
+                  color: #3484ba;
+                  text-decoration: underline;
+                }
+              }
+              &.deviantart {
+                &:hover {
+                  span {
+                    color: #90d88d;
+                  }
+                }
+                span {
+                  color: #5dc75a;
+                  text-decoration: underline;
+                }
+              }
             }
           }
         }
@@ -418,7 +463,159 @@
           }
         }
       }
-      // setting zoom levels for the machine
+      // setting zoome levels for screen and controls only view
+      &.screenview {
+        box-shadow: 0px 58px 60px #000;
+        margin: 0 auto;
+        width: 900px;
+        .frame,
+        .splash-outer {
+          display: none;
+        }
+        .screen-outer {
+          height: 525px;
+          .screen-inner {
+            height: 525px;
+            .screen {
+              height: 455px;
+              top: 35px;
+              p {
+                font-size: 25px;
+              }
+              a {
+                font-size: 25px;
+              }
+            }
+          }
+        }
+        .controls-outer {
+          height: 315px;
+          .controls-inner {
+            height: 147px;
+            .controls-inner2 {
+              height: 42px;
+              top: 105px;
+              .stick-wrap {
+                left: 140px;
+                top: 10px;
+                .base {
+                  border-radius: 70px/10px;
+                  height: 21px;
+                  width: 140px;
+                  .pole {
+                    height: 140px;
+                    left: 58px;
+                    top: -126px;
+                    width: 25px;
+                    .ball {
+                      border-radius: 53px;
+                      height: 105px;
+                      left: -40px;
+                      top: -40px;
+                      width: 105px;
+                      .highlight {
+                        height: 21px;
+                        left: 14px;
+                        top: 18px;
+                        width: 21px;
+                      }
+                    }
+                  }
+                }
+              }
+              .buttons-wrap {
+                left: 425px;
+                top: 12px;
+                .button1-base1 {
+                  border-radius: 56px/10px;
+                  height: 21px;
+                  width: 112px;
+                  .button1-base2 {
+                    border-radius: 56px/10px;
+                    height: 35px;
+                    left: 3px;
+                    top: -16px;
+                    width: 105px;
+                    .button1-base3 {
+                      border-radius: 56px/10px;
+                      height: 21px;
+                      width: 105px;
+                    }
+                  }
+                }
+              }
+              .button2-base1 {
+                border-radius: 56px/10px;
+                height: 21px;
+                left: 134px;
+                width: 112px;
+                .button2-base2 {
+                  border-radius: 56px/10px;
+                  height: 35px;
+                  left: 3px;
+                  top: -16px;
+                  width: 105px;
+                  .button2-base3 {
+                    border-radius: 56px/10px;
+                    height: 21px;
+                    width: 105px;
+                  }
+                }
+              }
+            }
+          }
+          .controls-inner-bottom {
+            height: 168px;
+            .coin-panel-outer {
+              height: 140px;
+              top: 28px;
+              .coin-slot1 {
+                border: 3px solid #ff8080;
+                border-radius: 7px;
+                height: 70px;
+                left: 70px;
+                top: 32px;
+                width: 56px;
+                p {
+                  font-size: 17px;
+                  left: 26px;
+                  top: 21px;
+                }
+                .coin-slot1-inner {
+                  border: 3px solid #ff8080;
+                  border-radius: 3px;
+                  height: 56px;
+                  left: 7px;
+                  top: 4px;
+                  width: 7px;
+                }
+              }
+              .coin-slot2 {
+                border: 3px solid #ff8080;
+                border-radius: 7px;
+                height: 70px;
+                left: 239px;
+                top: 32px;
+                width: 56px;
+                p {
+                  font-size: 17px;
+                  left: 26px;
+                  top: 21px;
+                }
+                .coin-slot2-inner {
+                  border: 3px solid #ff8080;
+                  border-radius: 3px;
+                  height: 56px;
+                  left: 7px;
+                  top: 4px;
+                  width: 7px;
+                }
+              }
+            }
+          }
+        }
+      }
+      // setting zoom levels for fullview machine
       &.fullview {
         box-shadow: 0px 58px 60px #000;
         margin: 5px auto 0;
@@ -500,8 +697,13 @@
               height: 325px;
               top: 27px;
               p {
-                font-size: 25px;
-                top: 150px;
+                font-size: 18px;
+                &.heading {
+                  font-size: 28px;
+                }
+              }
+              a {
+                font-size: 16px;
               }
             }
           }

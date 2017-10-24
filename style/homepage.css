@@ -177,9 +177,38 @@
             color: #fff;
             font-family: 'Press Start 2P', cursive;
             font-size: 50px;
+            padding-bottom: 20px;
+            position: relative; }
+            .homepage body .arcade-wrap .screen-outer .screen-inner .screen p.heading {
+              color: #ffff00;
+              font-size: 30px;
+              padding: 20px 0 50px;
+              text-align: center; }
+            .homepage body .arcade-wrap .screen-outer .screen-inner .screen p.play-game-click {
+              cursor: pointer;
+              line-height: 30px;
+              text-align: center; }
+              .homepage body .arcade-wrap .screen-outer .screen-inner .screen p.play-game-click span {
+                color: #f44242;
+                text-decoration: underline; }
+          .homepage body .arcade-wrap .screen-outer .screen-inner .screen a {
+            color: #fff;
+            display: block;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 50px;
+            padding-bottom: 20px;
             position: relative;
-            text-align: center;
-            top: 300px; }
+            text-decoration: none; }
+            .homepage body .arcade-wrap .screen-outer .screen-inner .screen a.linkedin:hover span {
+              color: #60a4d2; }
+            .homepage body .arcade-wrap .screen-outer .screen-inner .screen a.linkedin span {
+              color: #3484ba;
+              text-decoration: underline; }
+            .homepage body .arcade-wrap .screen-outer .screen-inner .screen a.deviantart:hover span {
+              color: #90d88d; }
+            .homepage body .arcade-wrap .screen-outer .screen-inner .screen a.deviantart span {
+              color: #5dc75a;
+              text-decoration: underline; }
     .homepage body .arcade-wrap .controls-outer {
       background-color: #1a1a1a;
       height: 450px;
@@ -341,6 +370,127 @@
                   height: 30px;
                   position: relative;
                   width: 150px; }
+    .homepage body .arcade-wrap.screenview {
+      box-shadow: 0px 58px 60px #000;
+      margin: 0 auto;
+      width: 900px; }
+      .homepage body .arcade-wrap.screenview .frame,
+      .homepage body .arcade-wrap.screenview .splash-outer {
+        display: none; }
+      .homepage body .arcade-wrap.screenview .screen-outer {
+        height: 525px; }
+        .homepage body .arcade-wrap.screenview .screen-outer .screen-inner {
+          height: 525px; }
+          .homepage body .arcade-wrap.screenview .screen-outer .screen-inner .screen {
+            height: 455px;
+            top: 35px; }
+            .homepage body .arcade-wrap.screenview .screen-outer .screen-inner .screen p {
+              font-size: 25px; }
+            .homepage body .arcade-wrap.screenview .screen-outer .screen-inner .screen a {
+              font-size: 25px; }
+      .homepage body .arcade-wrap.screenview .controls-outer {
+        height: 315px; }
+        .homepage body .arcade-wrap.screenview .controls-outer .controls-inner {
+          height: 147px; }
+          .homepage body .arcade-wrap.screenview .controls-outer .controls-inner .controls-inner2 {
+            height: 42px;
+            top: 105px; }
+            .homepage body .arcade-wrap.screenview .controls-outer .controls-inner .controls-inner2 .stick-wrap {
+              left: 140px;
+              top: 10px; }
+              .homepage body .arcade-wrap.screenview .controls-outer .controls-inner .controls-inner2 .stick-wrap .base {
+                border-radius: 70px/10px;
+                height: 21px;
+                width: 140px; }
+                .homepage body .arcade-wrap.screenview .controls-outer .controls-inner .controls-inner2 .stick-wrap .base .pole {
+                  height: 140px;
+                  left: 58px;
+                  top: -126px;
+                  width: 25px; }
+                  .homepage body .arcade-wrap.screenview .controls-outer .controls-inner .controls-inner2 .stick-wrap .base .pole .ball {
+                    border-radius: 53px;
+                    height: 105px;
+                    left: -40px;
+                    top: -40px;
+                    width: 105px; }
+                    .homepage body .arcade-wrap.screenview .controls-outer .controls-inner .controls-inner2 .stick-wrap .base .pole .ball .highlight {
+                      height: 21px;
+                      left: 14px;
+                      top: 18px;
+                      width: 21px; }
+            .homepage body .arcade-wrap.screenview .controls-outer .controls-inner .controls-inner2 .buttons-wrap {
+              left: 425px;
+              top: 12px; }
+              .homepage body .arcade-wrap.screenview .controls-outer .controls-inner .controls-inner2 .buttons-wrap .button1-base1 {
+                border-radius: 56px/10px;
+                height: 21px;
+                width: 112px; }
+                .homepage body .arcade-wrap.screenview .controls-outer .controls-inner .controls-inner2 .buttons-wrap .button1-base1 .button1-base2 {
+                  border-radius: 56px/10px;
+                  height: 35px;
+                  left: 3px;
+                  top: -16px;
+                  width: 105px; }
+                  .homepage body .arcade-wrap.screenview .controls-outer .controls-inner .controls-inner2 .buttons-wrap .button1-base1 .button1-base2 .button1-base3 {
+                    border-radius: 56px/10px;
+                    height: 21px;
+                    width: 105px; }
+            .homepage body .arcade-wrap.screenview .controls-outer .controls-inner .controls-inner2 .button2-base1 {
+              border-radius: 56px/10px;
+              height: 21px;
+              left: 134px;
+              width: 112px; }
+              .homepage body .arcade-wrap.screenview .controls-outer .controls-inner .controls-inner2 .button2-base1 .button2-base2 {
+                border-radius: 56px/10px;
+                height: 35px;
+                left: 3px;
+                top: -16px;
+                width: 105px; }
+                .homepage body .arcade-wrap.screenview .controls-outer .controls-inner .controls-inner2 .button2-base1 .button2-base2 .button2-base3 {
+                  border-radius: 56px/10px;
+                  height: 21px;
+                  width: 105px; }
+        .homepage body .arcade-wrap.screenview .controls-outer .controls-inner-bottom {
+          height: 168px; }
+          .homepage body .arcade-wrap.screenview .controls-outer .controls-inner-bottom .coin-panel-outer {
+            height: 140px;
+            top: 28px; }
+            .homepage body .arcade-wrap.screenview .controls-outer .controls-inner-bottom .coin-panel-outer .coin-slot1 {
+              border: 3px solid #ff8080;
+              border-radius: 7px;
+              height: 70px;
+              left: 70px;
+              top: 32px;
+              width: 56px; }
+              .homepage body .arcade-wrap.screenview .controls-outer .controls-inner-bottom .coin-panel-outer .coin-slot1 p {
+                font-size: 17px;
+                left: 26px;
+                top: 21px; }
+              .homepage body .arcade-wrap.screenview .controls-outer .controls-inner-bottom .coin-panel-outer .coin-slot1 .coin-slot1-inner {
+                border: 3px solid #ff8080;
+                border-radius: 3px;
+                height: 56px;
+                left: 7px;
+                top: 4px;
+                width: 7px; }
+            .homepage body .arcade-wrap.screenview .controls-outer .controls-inner-bottom .coin-panel-outer .coin-slot2 {
+              border: 3px solid #ff8080;
+              border-radius: 7px;
+              height: 70px;
+              left: 239px;
+              top: 32px;
+              width: 56px; }
+              .homepage body .arcade-wrap.screenview .controls-outer .controls-inner-bottom .coin-panel-outer .coin-slot2 p {
+                font-size: 17px;
+                left: 26px;
+                top: 21px; }
+              .homepage body .arcade-wrap.screenview .controls-outer .controls-inner-bottom .coin-panel-outer .coin-slot2 .coin-slot2-inner {
+                border: 3px solid #ff8080;
+                border-radius: 3px;
+                height: 56px;
+                left: 7px;
+                top: 4px;
+                width: 7px; }
     .homepage body .arcade-wrap.fullview {
       box-shadow: 0px 58px 60px #000;
       margin: 5px auto 0;
@@ -398,8 +548,11 @@
             height: 325px;
             top: 27px; }
             .homepage body .arcade-wrap.fullview .screen-outer .screen-inner .screen p {
-              font-size: 25px;
-              top: 150px; }
+              font-size: 18px; }
+              .homepage body .arcade-wrap.fullview .screen-outer .screen-inner .screen p.heading {
+                font-size: 28px; }
+            .homepage body .arcade-wrap.fullview .screen-outer .screen-inner .screen a {
+              font-size: 16px; }
       .homepage body .arcade-wrap.fullview .controls-outer {
         height: 225px; }
         .homepage body .arcade-wrap.fullview .controls-outer .controls-inner {

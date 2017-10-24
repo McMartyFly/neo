@@ -66,7 +66,11 @@
       <div class="screen-outer">
         <div class="screen-inner">
           <div class="screen">
-            <p>P1 PRESS START</p>
+            <p class="heading">Welcome!</p>
+            <a href="https://www.linkedin.com/in/salar-charles-antinori/" target="_blank" class="linkedin">Visit me on <span>LinkedIn</span>.</a>
+            <a href="https://souptastegood.deviantart.com/gallery/" target="_blank" class="deviantart">Browse my art on <span>DeviantArt</span>.</a>
+            <!-- <p>or...</p> -->
+            <!-- <p class="play-game-click">Click <span>here</span> to </br>play a game I made!</p> -->
           </div>
         </div>
       </div>
