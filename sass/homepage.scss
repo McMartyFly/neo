@@ -5,6 +5,16 @@
       margin: 10px auto;
       position: relative;
       width: 1200px;
+      &.left {
+        left: -232px;
+        position: absolute;
+        top: -5px;
+      }
+      &.right {
+        position: absolute;
+        right: -232px;
+        top: -5px;
+      }
       .frame {
         border-bottom: 30px solid #990000;
   	    border-left: 100px solid transparent;
