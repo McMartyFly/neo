@@ -15,6 +15,7 @@
   </head>
 
   <body>
+    <div style="width: 500px; height: 500px; background-color: red;"></div>
     <div class="arcade-wrap fullview left">
 
       <div class="frame"></div>
