@@ -27137,9 +27137,13 @@ cr.getObjectRefTable = function () {
 		cr.plugins_.Keyboard.prototype.cnds.IsKeyDown,
 		cr.plugins_.Sprite.prototype.acts.SetMirrored,
 		cr.behaviors.Platform.prototype.acts.SimulateControl,
+		cr.system_object.prototype.acts.SetBoolVar,
 		cr.plugins_.Touch.prototype.cnds.OnTapGestureObject,
 		cr.plugins_.Keyboard.prototype.cnds.OnKey,
-		cr.behaviors.Platform.prototype.acts.FallThrough
+		cr.behaviors.Platform.prototype.acts.FallThrough,
+		cr.system_object.prototype.cnds.CompareBoolVar,
+		cr.plugins_.Sprite.prototype.acts.SetAnim,
+		cr.behaviors.Platform.prototype.cnds.IsOnFloor
 	];
 };
 
