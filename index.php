@@ -69,7 +69,9 @@
             <p class="heading">Welcome!</p>
             <a href="https://www.linkedin.com/in/salar-charles-antinori/" target="_blank" class="linkedin">Visit me on <span>LinkedIn</span>.</a>
             <a href="https://souptastegood.deviantart.com/gallery/" target="_blank" class="deviantart">Browse my art on <span>DeviantArt</span>.</a>
-            <a href="/game" target="_blank" class="deviantart"><span style="color: #ffcc00;">Go Fish</span>.</a>
+            <a>Games To Play</a>
+            <a href="/game" target="_blank" class="deviantart"><span style="color: #ffcc00;">Play: Go Fish</span>.</a>
+            <a href="/game2" target="_blank" class="deviantart"><span style="color: #ffcc00;">Play: Test</span>.</a>
             <!-- <p>or...</p> -->
             <!-- <p class="play-game-click">Click <span>here</span> to </br>play a game I made!</p> -->
           </div>
