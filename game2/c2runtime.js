@@ -25337,6 +25337,300 @@ cr.plugins_.Touch = function(runtime)
 	
 }());
 
+// Tiled Background
+// ECMAScript 5 strict mode
+
+;
+;
+
+/////////////////////////////////////
+// Plugin class
+cr.plugins_.TiledBg = function(runtime)
+{
+	this.runtime = runtime;
+};
+
+(function ()
+{
+	var pluginProto = cr.plugins_.TiledBg.prototype;
+		
+	/////////////////////////////////////
+	// Object type class
+	pluginProto.Type = function(plugin)
+	{
+		this.plugin = plugin;
+		this.runtime = plugin.runtime;
+	};
+
+	var typeProto = pluginProto.Type.prototype;
+
+	typeProto.onCreate = function()
+	{
+		if (this.is_family)
+			return;
+		
+		this.texture_img = this.runtime.findWaitingTexture(this.texture_file);
+		
+		if (!this.texture_img)
+		{
+			this.texture_img = new Image();
+			this.texture_img.cr_src = this.texture_file;
+			this.texture_img.cr_filesize = this.texture_filesize;
+			this.texture_img.c2webGL_texture = null;
+			this.runtime.waitForImageLoad(this.texture_img, this.texture_file);
+		}
+		
+		this.pattern = null;
+		this.webGL_texture = null;
+	};
+	
+	typeProto.onLostWebGLContext = function ()
+	{
+		if (this.is_family)
+			return;
+			
+		this.webGL_texture = null;
+	};
+	
+	typeProto.onRestoreWebGLContext = function ()
+	{
+		// No need to create textures if no instances exist, will create on demand
+		if (this.is_family || !this.instances.length)
+			return;
+		
+		if (!this.webGL_texture)
+		{
+			this.webGL_texture = this.runtime.glwrap.loadTexture(this.texture_img, true, this.runtime.linearSampling, this.texture_pixelformat);
+		}
+		
+		var i, len;
+		for (i = 0, len = this.instances.length; i < len; i++)
+			this.instances[i].webGL_texture = this.webGL_texture;
+	};
+	
+	typeProto.loadTextures = function ()
+	{
+		if (this.is_family || this.webGL_texture || !this.runtime.glwrap)
+			return;
+			
+		this.webGL_texture = this.runtime.glwrap.loadTexture(this.texture_img, true, this.runtime.linearSampling, this.texture_pixelformat);
+	};
+	
+	typeProto.unloadTextures = function ()
+	{
+		// Don't release textures if any instances still exist, they are probably using them
+		if (this.is_family || this.instances.length || !this.webGL_texture)
+			return;
+		
+		this.runtime.glwrap.deleteTexture(this.webGL_texture);
+		this.webGL_texture = null;
+	};
+	
+	typeProto.preloadCanvas2D = function (ctx)
+	{
+		// draw to preload, browser should lazy load the texture
+		ctx.drawImage(this.texture_img, 0, 0);
+	};
+
+	/////////////////////////////////////
+	// Instance class
+	pluginProto.Instance = function(type)
+	{
+		this.type = type;
+		this.runtime = type.runtime;
+	};
+	
+	var instanceProto = pluginProto.Instance.prototype;
+
+	instanceProto.onCreate = function()
+	{
+		this.visible = this.properties[0];									// 0=visible, 1=invisible
+		this.rcTex = new cr.rect(0, 0, 0, 0);
+		
+		this.has_own_texture = false;										// true if a texture loaded in from URL
+		this.texture_img = this.type.texture_img;
+		
+		if (this.runtime.glwrap)
+		{
+			// Create WebGL texture if type doesn't have it yet
+			this.type.loadTextures();
+			
+			this.webGL_texture = this.type.webGL_texture;
+		}
+		else
+		{
+			// Create the pattern if the type doesn't have one yet
+			if (!this.type.pattern)
+				this.type.pattern = this.runtime.ctx.createPattern(this.type.texture_img, "repeat");
+			
+			this.pattern = this.type.pattern;
+		}
+	};
+	
+	instanceProto.afterLoad = function ()
+	{
+		// If has own texture, reset to normal texture since the texture isn't saved with the state
+		this.has_own_texture = false;
+		this.texture_img = this.type.texture_img;
+	};
+	
+	instanceProto.onDestroy = function ()
+	{
+		// WebGL renderer: if we have our own texture (via load from URL), delete it now
+		if (this.runtime.glwrap && this.has_own_texture && this.webGL_texture)
+		{
+			this.runtime.glwrap.deleteTexture(this.webGL_texture);
+			this.webGL_texture = null;
+		}
+	};
+
+	instanceProto.draw = function(ctx)
+	{
+		ctx.globalAlpha = this.opacity;
+			
+		ctx.save();
+		
+		ctx.fillStyle = this.pattern;
+		
+		var myx = this.x;
+		var myy = this.y;
+		
+		if (this.runtime.pixel_rounding)
+		{
+			myx = Math.round(myx);
+			myy = Math.round(myy);
+		}
+		
+		// Patterns tile from the origin no matter where you draw from.
+		// Translate the canvas to align with the draw position, then offset the draw position as well.
+		var drawX = -(this.hotspotX * this.width);
+		var drawY = -(this.hotspotY * this.height);
+		
+		var offX = drawX % this.texture_img.width;
+		var offY = drawY % this.texture_img.height;
+		if (offX < 0)
+			offX += this.texture_img.width;
+		if (offY < 0)
+			offY += this.texture_img.height;
+			
+		ctx.translate(myx, myy);
+		ctx.rotate(this.angle);
+		ctx.translate(offX, offY);
+		
+		ctx.fillRect(drawX - offX,
+					 drawY - offY,
+					 this.width,
+					 this.height);
+		
+		ctx.restore();
+	};
+	
+	instanceProto.drawGL_earlyZPass = function(glw)
+	{
+		this.drawGL(glw);
+	};
+	
+	instanceProto.drawGL = function(glw)
+	{
+		glw.setTexture(this.webGL_texture);
+		glw.setOpacity(this.opacity);
+		
+		var rcTex = this.rcTex;
+		rcTex.right = this.width / this.texture_img.width;
+		rcTex.bottom = this.height / this.texture_img.height;
+		
+		var q = this.bquad;
+		
+		if (this.runtime.pixel_rounding)
+		{
+			var ox = Math.round(this.x) - this.x;
+			var oy = Math.round(this.y) - this.y;
+			
+			glw.quadTex(q.tlx + ox, q.tly + oy, q.trx + ox, q.try_ + oy, q.brx + ox, q.bry + oy, q.blx + ox, q.bly + oy, rcTex);
+		}
+		else
+			glw.quadTex(q.tlx, q.tly, q.trx, q.try_, q.brx, q.bry, q.blx, q.bly, rcTex);
+	};
+
+	//////////////////////////////////////
+	// Conditions
+	function Cnds() {};
+	
+	Cnds.prototype.OnURLLoaded = function ()
+	{
+		return true;
+	};
+	
+	pluginProto.cnds = new Cnds();
+	
+	//////////////////////////////////////
+	// Actions
+	function Acts() {};
+
+	Acts.prototype.SetEffect = function (effect)
+	{
+		this.blend_mode = effect;
+		this.compositeOp = cr.effectToCompositeOp(effect);
+		cr.setGLBlend(this, effect, this.runtime.gl);
+		this.runtime.redraw = true;
+	};
+	
+	Acts.prototype.LoadURL = function (url_, crossOrigin_)
+	{
+		var img = new Image();
+		var self = this;
+		
+		img.onload = function ()
+		{
+			self.texture_img = img;
+			
+			// WebGL renderer
+			if (self.runtime.glwrap)
+			{
+				// Delete any previous own texture
+				if (self.has_own_texture && self.webGL_texture)
+					self.runtime.glwrap.deleteTexture(self.webGL_texture);
+					
+				self.webGL_texture = self.runtime.glwrap.loadTexture(img, true, self.runtime.linearSampling);
+			}
+			// Canvas2D renderer
+			else
+			{
+				self.pattern = self.runtime.ctx.createPattern(img, "repeat");
+			}
+			
+			self.has_own_texture = true;
+			self.runtime.redraw = true;
+			self.runtime.trigger(cr.plugins_.TiledBg.prototype.cnds.OnURLLoaded, self);
+		};
+		
+		if (url_.substr(0, 5) !== "data:" && crossOrigin_ === 0)
+			img.crossOrigin = "anonymous";
+		
+		// use runtime function to work around WKWebView permissions
+		this.runtime.setImageSrc(img, url_);
+	};
+	
+	pluginProto.acts = new Acts();
+	
+	//////////////////////////////////////
+	// Expressions
+	function Exps() {};
+	
+	Exps.prototype.ImageWidth = function (ret)
+	{
+		ret.set_float(this.texture_img.width);
+	};
+	
+	Exps.prototype.ImageHeight = function (ret)
+	{
+		ret.set_float(this.texture_img.height);
+	};
+	
+	pluginProto.exps = new Exps();
+
+}());
+
 // Bound to layout
 // ECMAScript 5 strict mode
 
@@ -26985,154 +27279,6 @@ cr.behaviors.Platform = function(runtime)
 	
 }());
 
-// Solid
-// ECMAScript 5 strict mode
-
-;
-;
-
-/////////////////////////////////////
-// Behavior class
-cr.behaviors.solid = function(runtime)
-{
-	this.runtime = runtime;
-};
-
-(function ()
-{
-	var behaviorProto = cr.behaviors.solid.prototype;
-		
-	/////////////////////////////////////
-	// Behavior type class
-	behaviorProto.Type = function(behavior, objtype)
-	{
-		this.behavior = behavior;
-		this.objtype = objtype;
-		this.runtime = behavior.runtime;
-	};
-
-	var behtypeProto = behaviorProto.Type.prototype;
-
-	behtypeProto.onCreate = function()
-	{
-	};
-
-	/////////////////////////////////////
-	// Behavior instance class
-	behaviorProto.Instance = function(type, inst)
-	{
-		this.type = type;
-		this.behavior = type.behavior;
-		this.inst = inst;				// associated object instance to modify
-		this.runtime = type.runtime;
-	};
-	
-	var behinstProto = behaviorProto.Instance.prototype;
-
-	behinstProto.onCreate = function()
-	{
-		this.inst.extra["solidEnabled"] = this.properties[0];
-	};
-
-	behinstProto.tick = function ()
-	{
-	};
-	
-	
-	function Cnds() {};
-	
-	Cnds.prototype.IsEnabled = function ()
-	{
-		return this.inst.extra["solidEnabled"];
-	};
-	
-	behaviorProto.cnds = new Cnds();
-	
-	function Acts() {};
-	
-	Acts.prototype.SetEnabled = function (e)
-	{
-		this.inst.extra["solidEnabled"] = !!e;
-	};
-	
-	behaviorProto.acts = new Acts();
-	
-}());
-
-// Jump-thru
-// ECMAScript 5 strict mode
-
-;
-;
-
-/////////////////////////////////////
-// Behavior class
-cr.behaviors.jumpthru = function(runtime)
-{
-	this.runtime = runtime;
-};
-
-(function ()
-{
-	var behaviorProto = cr.behaviors.jumpthru.prototype;
-		
-	/////////////////////////////////////
-	// Behavior type class
-	behaviorProto.Type = function(behavior, objtype)
-	{
-		this.behavior = behavior;
-		this.objtype = objtype;
-		this.runtime = behavior.runtime;
-	};
-
-	var behtypeProto = behaviorProto.Type.prototype;
-
-	behtypeProto.onCreate = function()
-	{
-	};
-
-	/////////////////////////////////////
-	// Behavior instance class
-	behaviorProto.Instance = function(type, inst)
-	{
-		this.type = type;
-		this.behavior = type.behavior;
-		this.inst = inst;				// associated object instance to modify
-		this.runtime = type.runtime;
-	};
-	
-	var behinstProto = behaviorProto.Instance.prototype;
-
-	behinstProto.onCreate = function()
-	{
-		this.inst.extra["jumpthruEnabled"] = this.properties[0];
-	};
-
-	behinstProto.tick = function ()
-	{
-	};
-	
-	
-	function Cnds() {};
-	
-	Cnds.prototype.IsEnabled = function ()
-	{
-		return this.inst.extra["jumpthruEnabled"];
-	};
-	
-	behaviorProto.cnds = new Cnds();
-	
-	function Acts() {};
-	
-	Acts.prototype.SetEnabled = function (e)
-	{
-		this.inst.extra["jumpthruEnabled"] = !!e;
-	};
-	
-	behaviorProto.acts = new Acts();
-	
-}());
-
 // Bullet
 // ECMAScript 5 strict mode
 
@@ -27552,6 +27698,154 @@ cr.behaviors.Bullet = function(runtime)
 	
 }());
 
+// Solid
+// ECMAScript 5 strict mode
+
+;
+;
+
+/////////////////////////////////////
+// Behavior class
+cr.behaviors.solid = function(runtime)
+{
+	this.runtime = runtime;
+};
+
+(function ()
+{
+	var behaviorProto = cr.behaviors.solid.prototype;
+		
+	/////////////////////////////////////
+	// Behavior type class
+	behaviorProto.Type = function(behavior, objtype)
+	{
+		this.behavior = behavior;
+		this.objtype = objtype;
+		this.runtime = behavior.runtime;
+	};
+
+	var behtypeProto = behaviorProto.Type.prototype;
+
+	behtypeProto.onCreate = function()
+	{
+	};
+
+	/////////////////////////////////////
+	// Behavior instance class
+	behaviorProto.Instance = function(type, inst)
+	{
+		this.type = type;
+		this.behavior = type.behavior;
+		this.inst = inst;				// associated object instance to modify
+		this.runtime = type.runtime;
+	};
+	
+	var behinstProto = behaviorProto.Instance.prototype;
+
+	behinstProto.onCreate = function()
+	{
+		this.inst.extra["solidEnabled"] = this.properties[0];
+	};
+
+	behinstProto.tick = function ()
+	{
+	};
+	
+	
+	function Cnds() {};
+	
+	Cnds.prototype.IsEnabled = function ()
+	{
+		return this.inst.extra["solidEnabled"];
+	};
+	
+	behaviorProto.cnds = new Cnds();
+	
+	function Acts() {};
+	
+	Acts.prototype.SetEnabled = function (e)
+	{
+		this.inst.extra["solidEnabled"] = !!e;
+	};
+	
+	behaviorProto.acts = new Acts();
+	
+}());
+
+// Jump-thru
+// ECMAScript 5 strict mode
+
+;
+;
+
+/////////////////////////////////////
+// Behavior class
+cr.behaviors.jumpthru = function(runtime)
+{
+	this.runtime = runtime;
+};
+
+(function ()
+{
+	var behaviorProto = cr.behaviors.jumpthru.prototype;
+		
+	/////////////////////////////////////
+	// Behavior type class
+	behaviorProto.Type = function(behavior, objtype)
+	{
+		this.behavior = behavior;
+		this.objtype = objtype;
+		this.runtime = behavior.runtime;
+	};
+
+	var behtypeProto = behaviorProto.Type.prototype;
+
+	behtypeProto.onCreate = function()
+	{
+	};
+
+	/////////////////////////////////////
+	// Behavior instance class
+	behaviorProto.Instance = function(type, inst)
+	{
+		this.type = type;
+		this.behavior = type.behavior;
+		this.inst = inst;				// associated object instance to modify
+		this.runtime = type.runtime;
+	};
+	
+	var behinstProto = behaviorProto.Instance.prototype;
+
+	behinstProto.onCreate = function()
+	{
+		this.inst.extra["jumpthruEnabled"] = this.properties[0];
+	};
+
+	behinstProto.tick = function ()
+	{
+	};
+	
+	
+	function Cnds() {};
+	
+	Cnds.prototype.IsEnabled = function ()
+	{
+		return this.inst.extra["jumpthruEnabled"];
+	};
+	
+	behaviorProto.cnds = new Cnds();
+	
+	function Acts() {};
+	
+	Acts.prototype.SetEnabled = function (e)
+	{
+		this.inst.extra["jumpthruEnabled"] = !!e;
+	};
+	
+	behaviorProto.acts = new Acts();
+	
+}());
+
 // Rotate
 // ECMAScript 5 strict mode
 
@@ -27844,20 +28138,306 @@ cr.behaviors.Persist = function(runtime)
 	
 }());
 
+// Fade
+// ECMAScript 5 strict mode
+
+;
+;
+
+/////////////////////////////////////
+// Behavior class
+cr.behaviors.Fade = function(runtime)
+{
+	this.runtime = runtime;
+};
+
+(function ()
+{
+	var behaviorProto = cr.behaviors.Fade.prototype;
+		
+	/////////////////////////////////////
+	// Behavior type class
+	behaviorProto.Type = function(behavior, objtype)
+	{
+		this.behavior = behavior;
+		this.objtype = objtype;
+		this.runtime = behavior.runtime;
+	};
+
+	var behtypeProto = behaviorProto.Type.prototype;
+
+	behtypeProto.onCreate = function()
+	{
+	};
+
+	/////////////////////////////////////
+	// Behavior instance class
+	behaviorProto.Instance = function(type, inst)
+	{
+		this.type = type;
+		this.behavior = type.behavior;
+		this.inst = inst;				// associated object instance to modify
+		this.runtime = type.runtime;
+	};
+
+	var behinstProto = behaviorProto.Instance.prototype;
+
+	behinstProto.onCreate = function()
+	{
+		this.fadeInTime = this.properties[0];
+		this.waitTime = this.properties[1];
+		this.fadeOutTime = this.properties[2];
+		this.destroy = this.properties[3];
+		this.activeAtStart = this.properties[4];
+		
+		this.setMaxOpacity = false;					// used to retrieve maxOpacity once in first 'Start fade' action if initially inactive
+		
+		this.stage = this.activeAtStart ? 0 : 3;		// 0 = fade in, 1 = wait, 2 = fade out, 3 = done
+		
+		if (this.recycled)
+			this.stageTime.reset();
+		else
+			this.stageTime = new cr.KahanAdder();
+		
+		this.maxOpacity = (this.inst.opacity ? this.inst.opacity : 1.0);
+		
+		if (this.activeAtStart)
+		{
+			// Skip fade-in
+			if (this.fadeInTime === 0)
+			{
+				this.stage = 1;
+				
+				// Skip wait
+				if (this.waitTime === 0)
+					this.stage = 2;
+			}
+			// Otherwise we don't want it at default opacity for first tick.  Set to 0 opacity.
+			else
+			{
+				this.inst.opacity = 0;
+				this.runtime.redraw = true;
+			}
+		}
+	};
+	
+	behinstProto.saveToJSON = function ()
+	{
+		return {
+			"fit": this.fadeInTime,
+			"wt": this.waitTime,
+			"fot": this.fadeOutTime,
+			"s": this.stage,
+			"st": this.stageTime.sum,
+			"mo": this.maxOpacity,
+		};
+	};
+	
+	behinstProto.loadFromJSON = function (o)
+	{
+		this.fadeInTime = o["fit"];
+		this.waitTime = o["wt"];
+		this.fadeOutTime = o["fot"];
+		this.stage = o["s"];
+		this.stageTime.reset();
+		this.stageTime.sum = o["st"];
+		this.maxOpacity = o["mo"];
+	};
+
+	behinstProto.tick = function ()
+	{
+		this.stageTime.add(this.runtime.getDt(this.inst));
+		
+		// Stage 0: fade-in
+		if (this.stage === 0)
+		{
+			this.inst.opacity = (this.stageTime.sum / this.fadeInTime) * this.maxOpacity;
+			this.runtime.redraw = true;
+			
+			// Fade-in completed
+			if (this.inst.opacity >= this.maxOpacity)
+			{
+				this.inst.opacity = this.maxOpacity;
+				this.stage = 1;	// wait stage
+				this.stageTime.reset();
+				
+				// On fade-in end
+				this.runtime.trigger(cr.behaviors.Fade.prototype.cnds.OnFadeInEnd, this.inst);
+			}
+		}
+		
+		// Stage 1: wait
+		if (this.stage === 1)
+		{
+			// Wait time has elapsed
+			if (this.stageTime.sum >= this.waitTime)
+			{
+				this.stage = 2;	// fade out stage
+				this.stageTime.reset();
+				
+				// On wait end
+				this.runtime.trigger(cr.behaviors.Fade.prototype.cnds.OnWaitEnd, this.inst);
+			}
+		}
+		
+		// Stage 2: fade out
+		if (this.stage === 2)
+		{
+			if (this.fadeOutTime !== 0)
+			{
+				this.inst.opacity = this.maxOpacity - ((this.stageTime.sum / this.fadeOutTime) * this.maxOpacity);
+				this.runtime.redraw = true;
+				
+				// Fade-out completed
+				if (this.inst.opacity < 0)
+				{
+					this.inst.opacity = 0;
+					this.stage = 3;	// done
+					this.stageTime.reset();
+					
+					// On fade-out end
+					this.runtime.trigger(cr.behaviors.Fade.prototype.cnds.OnFadeOutEnd, this.inst);
+					
+					// Destroy after fade out
+					if (this.destroy)
+						this.runtime.DestroyInstance(this.inst);
+				}
+			}
+		}
+	};
+	
+	behinstProto.doStart = function ()
+	{
+		this.stage = 0;
+		this.stageTime.reset();
+		
+		// Skip fade-in
+		if (this.fadeInTime === 0)
+		{
+			this.stage = 1;
+			
+			// Skip wait
+			if (this.waitTime === 0)
+				this.stage = 2;
+		}
+		// Otherwise we don't want it at default opacity for first tick.  Set to 0 opacity.
+		else
+		{
+			this.inst.opacity = 0;
+			this.runtime.redraw = true;
+		}
+	};
+	
+
+	//////////////////////////////////////
+	// Conditions
+	function Cnds() {};
+
+	Cnds.prototype.OnFadeOutEnd = function ()
+	{
+		return true;
+	};
+	
+	Cnds.prototype.OnFadeInEnd = function ()
+	{
+		return true;
+	};
+	
+	Cnds.prototype.OnWaitEnd = function ()
+	{
+		return true;
+	};
+	
+	behaviorProto.cnds = new Cnds();
+	
+	//////////////////////////////////////
+	// Actions
+	function Acts() {};
+	
+	Acts.prototype.StartFade = function ()
+	{
+		// If the fade was not active at the start, grab the max opacity the first time the 'Start fade' action
+		// is used. This allows changes in opacity made before the fade behavior starts to have an effect.
+		if (!this.activeAtStart && !this.setMaxOpacity)
+		{
+			this.maxOpacity = (this.inst.opacity ? this.inst.opacity : 1.0);
+			this.setMaxOpacity = true;
+		}
+		
+		if (this.stage === 3)
+			this.doStart();
+	};
+	
+	Acts.prototype.RestartFade = function ()
+	{
+		this.doStart();
+	};
+	
+	Acts.prototype.SetFadeInTime = function (t)
+	{
+		if (t < 0)
+			t = 0;
+		
+		this.fadeInTime = t;
+	};
+	
+	Acts.prototype.SetWaitTime = function (t)
+	{
+		if (t < 0)
+			t = 0;
+		
+		this.waitTime = t;
+	};
+	
+	Acts.prototype.SetFadeOutTime = function (t)
+	{
+		if (t < 0)
+			t = 0;
+		
+		this.fadeOutTime = t;
+	};
+	
+	behaviorProto.acts = new Acts();
+	
+	//////////////////////////////////////
+	// Expressions
+	function Exps() {};
+	
+	Exps.prototype.FadeInTime = function (ret)
+	{
+		ret.set_float(this.fadeInTime);
+	};
+	
+	Exps.prototype.WaitTime = function (ret)
+	{
+		ret.set_float(this.waitTime);
+	};
+	
+	Exps.prototype.FadeOutTime = function (ret)
+	{
+		ret.set_float(this.fadeOutTime);
+	};
+	
+	behaviorProto.exps = new Exps();
+
+}());
+
 cr.getObjectRefTable = function () {
 	return [
 		cr.plugins_.Sprite,
 		cr.behaviors.bound,
 		cr.behaviors.scrollto,
 		cr.behaviors.Platform,
+		cr.behaviors.Bullet,
 		cr.plugins_.Keyboard,
 		cr.behaviors.solid,
 		cr.plugins_.Touch,
 		cr.behaviors.jumpthru,
-		cr.behaviors.Bullet,
 		cr.behaviors.Rotate,
 		cr.behaviors.destroy,
 		cr.behaviors.Persist,
+		cr.behaviors.Fade,
+		cr.plugins_.TiledBg,
 		cr.system_object.prototype.cnds.IsGroupActive,
 		cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 		cr.plugins_.Keyboard.prototype.cnds.IsKeyDown,
@@ -27880,9 +28460,14 @@ cr.getObjectRefTable = function () {
 		cr.plugins_.Sprite.prototype.cnds.OnAnimFinished,
 		cr.plugins_.Sprite.prototype.cnds.OnCollision,
 		cr.plugins_.Sprite.prototype.acts.Destroy,
+		cr.plugins_.Sprite.prototype.acts.SetAngle,
 		cr.plugins_.Sprite.prototype.acts.SetEffectEnabled,
 		cr.system_object.prototype.acts.Wait,
 		cr.plugins_.Sprite.prototype.cnds.OnCreated,
+		cr.plugins_.Keyboard.prototype.cnds.OnKey,
+		cr.system_object.prototype.acts.GoToLayoutByName,
+		cr.system_object.prototype.acts.ResetGlobals,
+		cr.system_object.prototype.acts.ResetPersisted,
 		cr.system_object.prototype.cnds.OnLayoutStart,
 		cr.system_object.prototype.acts.CreateObject,
 		cr.plugins_.Sprite.prototype.exps.X,
