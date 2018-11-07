@@ -27765,8 +27765,6 @@ cr.getObjectRefTable = function () {
 		cr.plugins_.Sprite.prototype.acts.SetMirrored,
 		cr.behaviors.Platform.prototype.acts.SimulateControl,
 		cr.system_object.prototype.acts.SetBoolVar,
-		cr.plugins_.Touch.prototype.cnds.OnTapGestureObject,
-		cr.plugins_.Keyboard.prototype.cnds.OnKey,
 		cr.behaviors.Platform.prototype.acts.FallThrough,
 		cr.plugins_.Sprite.prototype.cnds.CompareInstanceVar,
 		cr.plugins_.Sprite.prototype.cnds.IsMirrored,
