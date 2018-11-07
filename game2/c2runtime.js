@@ -21727,6 +21727,16 @@ cr.system_object.prototype.loadFromJSON = function (o)
 })();
 
 cr.shaders = {};
+cr.shaders["tint"] = {
+	src: "varying mediump vec2 vTex;\nuniform lowp sampler2D samplerFront;\nuniform lowp vec3 tintColor;\nvoid main(void)\n{\nlowp vec4 front = texture2D(samplerFront, vTex);\ngl_FragColor = front * vec4(tintColor.r, tintColor.g, tintColor.b, 1.0);\n}",
+	extendBoxHorizontal: 0,
+	extendBoxVertical: 0,
+	crossSampling: false,
+	mustPreDraw: false,
+	preservesOpaqueness: true,
+	animated: false,
+	parameters: [["tintColor",0,2]]
+};
 
 
 // Sprite
@@ -27746,6 +27756,94 @@ cr.behaviors.destroy = function(runtime)
 	
 }());
 
+// Persist
+// ECMAScript 5 strict mode
+
+;
+;
+
+/////////////////////////////////////
+// Behavior class
+cr.behaviors.Persist = function(runtime)
+{
+	this.runtime = runtime;
+};
+
+(function ()
+{
+	var behaviorProto = cr.behaviors.Persist.prototype;
+		
+	/////////////////////////////////////
+	// Behavior type class
+	behaviorProto.Type = function(behavior, objtype)
+	{
+		this.behavior = behavior;
+		this.objtype = objtype;
+		this.runtime = behavior.runtime;
+	};
+	
+	var behtypeProto = behaviorProto.Type.prototype;
+
+	behtypeProto.onCreate = function()
+	{
+	};
+
+	/////////////////////////////////////
+	// Behavior instance class
+	behaviorProto.Instance = function(type, inst)
+	{
+		this.type = type;
+		this.behavior = type.behavior;
+		this.inst = inst;				// associated object instance to modify
+		this.runtime = type.runtime;
+	};
+	
+	var behinstProto = behaviorProto.Instance.prototype;
+
+	behinstProto.onCreate = function()
+	{
+		// Load properties
+		this.myProperty = this.properties[0];
+		
+		// object is sealed after this call, so make sure any properties you'll ever need are created, e.g.
+		// this.myValue = 0;
+	};
+	
+	behinstProto.onDestroy = function ()
+	{
+		// called when associated object is being destroyed
+		// note runtime may keep the object and behavior alive after this call for recycling;
+		// release, recycle or reset any references here as necessary
+	};
+	
+	behinstProto.tick = function ()
+	{
+		var dt = this.runtime.getDt(this.inst);
+		
+		// called every tick for you to update this.inst as necessary
+		// dt is the amount of time passed since the last tick, in case it's a movement
+	};
+
+	//////////////////////////////////////
+	// Conditions
+	function Cnds() {};
+	
+	behaviorProto.cnds = new Cnds();
+
+	//////////////////////////////////////
+	// Actions
+	function Acts() {};
+
+	behaviorProto.acts = new Acts();
+
+	//////////////////////////////////////
+	// Expressions
+	function Exps() {};
+
+	behaviorProto.exps = new Exps();
+	
+}());
+
 cr.getObjectRefTable = function () {
 	return [
 		cr.plugins_.Sprite,
@@ -27759,6 +27857,7 @@ cr.getObjectRefTable = function () {
 		cr.behaviors.Bullet,
 		cr.behaviors.Rotate,
 		cr.behaviors.destroy,
+		cr.behaviors.Persist,
 		cr.system_object.prototype.cnds.IsGroupActive,
 		cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 		cr.plugins_.Keyboard.prototype.cnds.IsKeyDown,
@@ -27778,7 +27877,18 @@ cr.getObjectRefTable = function () {
 		cr.system_object.prototype.cnds.CompareBoolVar,
 		cr.plugins_.Sprite.prototype.acts.SetAnim,
 		cr.behaviors.Platform.prototype.cnds.IsOnFloor,
-		cr.plugins_.Sprite.prototype.cnds.OnAnimFinished
+		cr.plugins_.Sprite.prototype.cnds.OnAnimFinished,
+		cr.plugins_.Sprite.prototype.cnds.OnCollision,
+		cr.plugins_.Sprite.prototype.acts.Destroy,
+		cr.plugins_.Sprite.prototype.acts.SetEffectEnabled,
+		cr.system_object.prototype.acts.Wait,
+		cr.plugins_.Sprite.prototype.cnds.OnCreated,
+		cr.system_object.prototype.cnds.OnLayoutStart,
+		cr.system_object.prototype.acts.CreateObject,
+		cr.plugins_.Sprite.prototype.exps.X,
+		cr.plugins_.Sprite.prototype.exps.Y,
+		cr.system_object.prototype.acts.NextPrevLayout,
+		cr.system_object.prototype.acts.RestartLayout
 	];
 };
 
