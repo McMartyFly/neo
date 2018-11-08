@@ -21737,6 +21737,26 @@ cr.shaders["tint"] = {
 	animated: false,
 	parameters: [["tintColor",0,2]]
 };
+cr.shaders["swirl"] = {
+	src: "#ifdef GL_FRAGMENT_PRECISION_HIGH\n#define highmedp highp\n#else\n#define highmedp mediump\n#endif\nvarying mediump vec2 vTex;\nuniform lowp sampler2D samplerFront;\nuniform mediump vec2 srcOriginStart;\nuniform mediump vec2 srcOriginEnd;\nuniform mediump float radius;\nuniform mediump float angle;\nvoid main(void)\n{\nmediump vec2 center = vec2(0.5, 0.5);\nhighmedp vec2 srcOriginSize = srcOriginEnd - srcOriginStart;\nhighmedp vec2 tex = ((vTex - srcOriginStart) / srcOriginSize);\nhighmedp float dist = distance(center, tex);\ntex -= center;\nif (dist < radius)\n{\nhighmedp float percent = (radius - dist) / radius;\nhighmedp float theta = percent * percent * angle * 8.0;\nhighmedp float s = sin(theta);\nhighmedp float c = cos(theta);\ntex = vec2(dot(tex, vec2(c, -s)), dot(tex, vec2(s, c)));\n}\ntex += center;\ntex = clamp(tex, 0.0, 1.0);\t\t\t// ensure no sampling outside source rect\ntex = (tex * srcOriginSize) + srcOriginStart;\t// convert back relative to source rect\ngl_FragColor = texture2D(samplerFront, tex);\n}",
+	extendBoxHorizontal: 0,
+	extendBoxVertical: 0,
+	crossSampling: false,
+	mustPreDraw: false,
+	preservesOpaqueness: false,
+	animated: false,
+	parameters: [["radius",0,1],["angle",0,1]]
+};
+cr.shaders["warpobject"] = {
+	src: "varying mediump vec2 vTex;\nuniform lowp sampler2D samplerFront;\nuniform mediump vec2 srcStart;\nuniform mediump vec2 srcEnd;\nuniform mediump vec2 srcOriginStart;\nuniform mediump vec2 srcOriginEnd;\nuniform mediump float seconds;\nuniform mediump vec2 pixelSize;\nuniform mediump float layerScale;\nuniform mediump float freqX;\nuniform mediump float freqY;\nuniform mediump float ampX;\nuniform mediump float ampY;\nuniform mediump float speedX;\nuniform mediump float speedY;\nvoid main(void)\n{\nmediump float _2pi = 2.0 * 3.14159265359;\nmediump vec2 srcOriginSize = srcOriginEnd - srcOriginStart;\nmediump vec2 n = ((vTex - srcOriginStart) / srcOriginSize);\nmediump vec2 p = vTex;\np.x += cos(n.y * _2pi * freqY + seconds * speedY * _2pi) * ampY * pixelSize.x * layerScale;\np.y += sin(n.x * _2pi * freqX + seconds * speedX * _2pi) * ampX * pixelSize.y * layerScale;\np = clamp(p, min(srcStart, srcEnd), max(srcStart, srcEnd));\ngl_FragColor = texture2D(samplerFront, p);\n}",
+	extendBoxHorizontal: 30,
+	extendBoxVertical: 30,
+	crossSampling: false,
+	mustPreDraw: false,
+	preservesOpaqueness: false,
+	animated: true,
+	parameters: [["freqX",0,0],["freqY",0,0],["ampX",0,0],["ampY",0,0],["speedX",0,0],["speedY",0,0]]
+};
 
 
 // Sprite
@@ -25631,6 +25651,988 @@ cr.plugins_.TiledBg = function(runtime)
 
 }());
 
+// Browser
+// ECMAScript 5 strict mode
+
+;
+;
+
+/////////////////////////////////////
+// Plugin class
+cr.plugins_.Browser = function(runtime)
+{
+	this.runtime = runtime;
+};
+
+(function ()
+{
+	var pluginProto = cr.plugins_.Browser.prototype;
+		
+	/////////////////////////////////////
+	// Object type class
+	pluginProto.Type = function(plugin)
+	{
+		this.plugin = plugin;
+		this.runtime = plugin.runtime;
+	};
+
+	var typeProto = pluginProto.Type.prototype;
+
+	typeProto.onCreate = function()
+	{
+	};
+	
+	// As soon as possible, start loading the offlineClient.js file, to best have a shot at having it running within
+	// the 3 second delay that the SW puts on messages it sends out. Set the message callback only when both the script
+	// and the Browser plugin are ready. Only do this if a C3_RegisterSW() method exists, since that indicates use of SW.
+	var offlineScriptReady = false;
+	var browserPluginReady = false;
+	
+	// note wait for DOMContentLoaded since C3_RegisterSW is only assigned after a later script executes.
+	document.addEventListener("DOMContentLoaded", function ()
+	{
+		if (window["C3_RegisterSW"] && navigator["serviceWorker"])
+		{
+			var offlineClientScript = document.createElement("script");
+			offlineClientScript.onload = function ()
+			{
+				offlineScriptReady = true;
+				checkReady()
+			};
+			offlineClientScript.src = "offlineClient.js";
+			document.head.appendChild(offlineClientScript);
+		}
+	});
+	
+	var browserInstance = null;
+	
+	// wait for onAppBegin call from runtime (made just after Start of Layout) to ensure layout is running so triggers will work
+	typeProto.onAppBegin = function ()
+	{
+		browserPluginReady = true;
+		checkReady();
+	};
+	
+	function checkReady()
+	{
+		// need both script and browser plugin to be ready, then we start listening for messages
+		if (offlineScriptReady && browserPluginReady && window["OfflineClientInfo"])
+		{
+			window["OfflineClientInfo"]["SetMessageCallback"](function (e)
+			{
+				browserInstance.onSWMessage(e);
+			});
+		}
+	};
+
+	/////////////////////////////////////
+	// Instance class
+	pluginProto.Instance = function(type)
+	{
+		this.type = type;
+		this.runtime = type.runtime;
+	};
+
+	var instanceProto = pluginProto.Instance.prototype;
+
+	instanceProto.onCreate = function()
+	{
+		var self = this;
+		
+		window.addEventListener("resize", function () {
+			self.runtime.trigger(cr.plugins_.Browser.prototype.cnds.OnResize, self);
+		});
+		
+		browserInstance = this;
+		
+		// register for online/offline events
+		if (typeof navigator.onLine !== "undefined")
+		{
+			window.addEventListener("online", function() {
+				self.runtime.trigger(cr.plugins_.Browser.prototype.cnds.OnOnline, self);
+			});
+			
+			window.addEventListener("offline", function() {
+				self.runtime.trigger(cr.plugins_.Browser.prototype.cnds.OnOffline, self);
+			});
+		}
+		
+		// Listen for Cordova's button events
+		document.addEventListener("backbutton", function() {
+			self.runtime.trigger(cr.plugins_.Browser.prototype.cnds.OnBackButton, self);
+		});
+		
+		document.addEventListener("menubutton", function() {
+			self.runtime.trigger(cr.plugins_.Browser.prototype.cnds.OnMenuButton, self);
+		});
+		
+		document.addEventListener("searchbutton", function() {
+			self.runtime.trigger(cr.plugins_.Browser.prototype.cnds.OnSearchButton, self);
+		});
+		
+		// Listen for Tizen's hardware key events
+		document.addEventListener("tizenhwkey", function (e) {
+			var ret;
+			
+			switch (e["keyName"]) {
+			case "back":
+				ret = self.runtime.trigger(cr.plugins_.Browser.prototype.cnds.OnBackButton, self);
+				
+				// If nothing was triggered, end the application with the Back button
+				if (!ret)
+				{
+					if (window["tizen"])
+						window["tizen"]["application"]["getCurrentApplication"]()["exit"]();
+				}
+					
+				break;
+			case "menu":
+				ret = self.runtime.trigger(cr.plugins_.Browser.prototype.cnds.OnMenuButton, self);
+				
+				// Only prevent default if something was triggered
+				if (!ret)
+					e.preventDefault();
+					
+				break;
+			}
+		});
+		
+		// In Windows Phone 8.1 or Windows 10, listen for back click events
+		if (this.runtime.isWindows10 && typeof Windows !== "undefined")
+		{
+			Windows["UI"]["Core"]["SystemNavigationManager"]["getForCurrentView"]().addEventListener("backrequested", function (e)
+			{
+				var ret = self.runtime.trigger(cr.plugins_.Browser.prototype.cnds.OnBackButton, self);
+				
+				if (ret)
+					e["handled"] = true;
+		    });
+		}
+		else if (this.runtime.isWinJS && WinJS["Application"])
+		{
+			WinJS["Application"]["onbackclick"] = function (e)
+			{
+				// If anything triggers, return true to cancel default behavior.
+				return !!self.runtime.trigger(cr.plugins_.Browser.prototype.cnds.OnBackButton, self);
+			};
+		}
+		
+		// browser visibility change events as well as platform-specific events like cordova's
+		// pause and resume will suspend the runtime.  handle this event as the 'page visible' trigger
+		this.runtime.addSuspendCallback(function(s) {
+			if (s)
+			{
+				self.runtime.trigger(cr.plugins_.Browser.prototype.cnds.OnPageHidden, self);
+			}
+			else
+			{
+				self.runtime.trigger(cr.plugins_.Browser.prototype.cnds.OnPageVisible, self);
+			}
+		});
+		
+		this.is_arcade = (typeof window["is_scirra_arcade"] !== "undefined");
+	};
+	
+	instanceProto.onSWMessage = function (e)
+	{
+		var messageType = e["data"]["type"];
+		
+		if (messageType === "downloading-update")
+			this.runtime.trigger(cr.plugins_.Browser.prototype.cnds.OnUpdateFound, this);
+		else if (messageType === "update-ready" || messageType === "update-pending")
+			this.runtime.trigger(cr.plugins_.Browser.prototype.cnds.OnUpdateReady, this);
+		else if (messageType === "offline-ready")
+			this.runtime.trigger(cr.plugins_.Browser.prototype.cnds.OnOfflineReady, this);
+	};
+	
+	
+	var batteryManager = null;
+	var loadedBatteryManager = false;
+	
+	function maybeLoadBatteryManager()
+	{
+		if (loadedBatteryManager)
+			return;
+		
+		if (!navigator["getBattery"])
+			return;
+		
+		var promise = navigator["getBattery"]();
+		loadedBatteryManager = true;
+		
+		if (promise)
+		{
+			promise.then(function (manager) {
+				batteryManager = manager;
+			});
+		}
+	};
+	
+	//////////////////////////////////////
+	// Conditions
+	function Cnds() {};
+
+	Cnds.prototype.CookiesEnabled = function()
+	{
+		return navigator ? navigator.cookieEnabled : false;
+	};
+	
+	Cnds.prototype.IsOnline = function()
+	{
+		return navigator ? navigator.onLine : false;
+	};
+	
+	Cnds.prototype.HasJava = function()
+	{
+		return navigator ? navigator.javaEnabled() : false;
+	};
+	
+	Cnds.prototype.OnOnline = function()
+	{
+		return true;
+	};
+	
+	Cnds.prototype.OnOffline = function()
+	{
+		return true;
+	};
+	
+	Cnds.prototype.IsDownloadingUpdate = function ()
+	{
+		return false;		// deprecated
+	};
+	
+	Cnds.prototype.PageVisible = function ()
+	{
+		return !this.runtime.isSuspended;
+	};
+	
+	Cnds.prototype.OnPageVisible = function ()
+	{
+		return true;
+	};
+	
+	Cnds.prototype.OnPageHidden = function ()
+	{
+		return true;
+	};
+	
+	Cnds.prototype.OnResize = function ()
+	{
+		return true;
+	};
+	
+	Cnds.prototype.IsFullscreen = function ()
+	{
+		return !!(document["mozFullScreen"] || document["webkitIsFullScreen"] || document["fullScreen"] || this.runtime.isNodeFullscreen);
+	};
+	
+	Cnds.prototype.OnBackButton = function ()
+	{
+		return true;
+	};
+	
+	Cnds.prototype.OnMenuButton = function ()
+	{
+		return true;
+	};
+	
+	Cnds.prototype.OnSearchButton = function ()
+	{
+		return true;
+	};
+	
+	Cnds.prototype.IsMetered = function ()
+	{
+		var connection = navigator["connection"] || navigator["mozConnection"] || navigator["webkitConnection"];
+		
+		if (!connection)
+			return false;
+			
+		return !!connection["metered"];
+	};
+	
+	Cnds.prototype.IsCharging = function ()
+	{
+		// check old API first
+		var battery = navigator["battery"] || navigator["mozBattery"] || navigator["webkitBattery"];
+		
+		if (battery)
+		{
+			return !!battery["charging"]
+		}
+		else
+		{
+			// try to use new API
+			maybeLoadBatteryManager();
+			
+			if (batteryManager)
+			{
+				return !!batteryManager["charging"];
+			}
+			else
+			{
+				return true;		// if unknown, default to charging (powered)
+			}
+		}
+	};
+	
+	Cnds.prototype.IsPortraitLandscape = function (p)
+	{
+		var current = (window.innerWidth <= window.innerHeight ? 0 : 1);
+		
+		return current === p;
+	};
+	
+	Cnds.prototype.SupportsFullscreen = function ()
+	{
+		if (this.runtime.isNWjs)
+			return true;
+		
+		var elem = this.runtime.canvas;
+		return !!(elem["requestFullscreen"] || elem["mozRequestFullScreen"] || elem["msRequestFullscreen"] || elem["webkitRequestFullScreen"]);
+	};
+	
+	Cnds.prototype.OnUpdateFound = function ()
+	{
+		return true;
+	};
+	
+	Cnds.prototype.OnUpdateReady = function ()
+	{
+		return true;
+	};
+	
+	Cnds.prototype.OnOfflineReady = function ()
+	{
+		return true;
+	};
+	
+	
+	pluginProto.cnds = new Cnds();
+
+	//////////////////////////////////////
+	// Actions
+	function Acts() {};
+
+	Acts.prototype.Alert = function (msg)
+	{
+		alert(msg.toString());
+	};
+	
+	Acts.prototype.Close = function ()
+	{
+		if (window["tizen"])
+			window["tizen"]["application"]["getCurrentApplication"]()["exit"]();
+		else if (navigator["app"] && navigator["app"]["exitApp"])
+			navigator["app"]["exitApp"]();
+		else if (navigator["device"] && navigator["device"]["exitApp"])
+			navigator["device"]["exitApp"]();
+		else if (!this.is_arcade)
+			window.close();
+	};
+	
+	Acts.prototype.Focus = function ()
+	{
+		if (this.runtime.isNWjs)
+		{
+			var win = nw["Window"]["get"]();
+			win["focus"]();
+		}
+		else if (!this.is_arcade)
+			window.focus();
+	};
+	
+	Acts.prototype.Blur = function ()
+	{
+		if (this.runtime.isNWjs)
+		{
+			var win = nw["Window"]["get"]();
+			win["blur"]();
+		}
+		else if (!this.is_arcade)
+			window.blur();
+	};
+	
+	Acts.prototype.GoBack = function ()
+	{
+		if (navigator["app"] && navigator["app"]["backHistory"])
+			navigator["app"]["backHistory"]();
+		else if (!this.is_arcade && window.back)
+			window.back();
+	};
+	
+	Acts.prototype.GoForward = function ()
+	{
+		if (!this.is_arcade && window.forward)
+			window.forward();
+	};
+	
+	Acts.prototype.GoHome = function ()
+	{
+		if (!this.is_arcade && window.home)
+			window.home();
+	};
+	
+	Acts.prototype.GoToURL = function (url, target)
+	{
+		if (this.runtime.isWinJS)
+			Windows["System"]["Launcher"]["launchUriAsync"](new Windows["Foundation"]["Uri"](url));
+		else if (navigator["app"] && navigator["app"]["loadUrl"])
+			navigator["app"]["loadUrl"](url, { "openExternal": true });
+		else if (this.runtime.isCordova)
+			window.open(url, "_system");
+		else if (this.runtime.isPreview)
+			window.open(url, "_blank");					// preview mode in C3 can't change URL since it causes security exceptions - just open in new window instead
+		else if (!this.is_arcade)
+		{
+			if (target === 2 && !this.is_arcade)		// top
+				window.top.location = url;
+			else if (target === 1 && !this.is_arcade)	// parent
+				window.parent.location = url;
+			else					// self
+				window.location = url;
+		}
+	};
+	
+	Acts.prototype.GoToURLWindow = function (url, tag)
+	{
+		if (this.runtime.isWinJS)
+			Windows["System"]["Launcher"]["launchUriAsync"](new Windows["Foundation"]["Uri"](url));
+		else if (navigator["app"] && navigator["app"]["loadUrl"])
+			navigator["app"]["loadUrl"](url, { "openExternal": true });
+		else if (this.runtime.isCordova)
+			window.open(url, "_system");
+		else if (!this.is_arcade)
+			window.open(url, tag);
+	};
+	
+	Acts.prototype.Reload = function ()
+	{
+		if (!this.is_arcade)
+			window.location.reload();
+	};
+	
+	var firstRequestFullscreen = true;
+	var crruntime = null;
+	
+	function onFullscreenError(e)
+	{
+		if (console && console.warn)
+			console.warn("Fullscreen request failed: ", e);
+		
+		// need to call setSize again for display to update correctly given the request failed
+		crruntime["setSize"](window.innerWidth, window.innerHeight);
+	};
+	
+	Acts.prototype.RequestFullScreen = function (stretchmode)
+	{
+		// Scale inner comes at end of list for backwards compatibility; rearrange parameters to be correct
+		if (stretchmode >= 2)
+			stretchmode += 1;
+			
+		if (stretchmode === 6)
+			stretchmode = 2;
+			
+		// Node-webkit app switching to fullscreen
+		if (this.runtime.isNodeWebkit)
+		{
+			// In debug mode: forward to parent frame
+			if (this.runtime.isDebug)
+			{
+				DebuggerFullscreen(true);
+			}
+			else if (!this.runtime.isNodeFullscreen)
+			{
+				nw["Window"]["get"]()["enterFullscreen"]();
+				
+				this.runtime.isNodeFullscreen = true;
+				this.runtime.fullscreen_scaling = (stretchmode >= 2 ? stretchmode : 0);
+			}
+		}
+		// Tell browser to go fullscreen
+		else
+		{
+			if (document["mozFullScreen"] || document["webkitIsFullScreen"] || !!document["msFullscreenElement"] || document["fullScreen"] || document["fullScreenElement"])
+			{
+				return;
+			}
+			
+			this.runtime.fullscreen_scaling = (stretchmode >= 2 ? stretchmode : 0);
+			
+			var elem = document.documentElement;
+			
+			// If the first request, add a fullscreen error handler. We need to call
+			// setSize() again for the display to end up correct if the request failed.
+			if (firstRequestFullscreen)
+			{
+				firstRequestFullscreen = false;
+				crruntime = this.runtime;
+				elem.addEventListener("mozfullscreenerror", onFullscreenError);
+				elem.addEventListener("webkitfullscreenerror", onFullscreenError);
+				elem.addEventListener("MSFullscreenError", onFullscreenError);
+				elem.addEventListener("fullscreenerror", onFullscreenError);
+			}
+			
+			// note case sensitivity on "Fullscreen" - matches spec http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html#api
+			// as of 12/11/11
+			if (elem["requestFullscreen"])
+				elem["requestFullscreen"]();
+			else if (elem["mozRequestFullScreen"])
+				elem["mozRequestFullScreen"]();
+			else if (elem["msRequestFullscreen"])
+				elem["msRequestFullscreen"]();
+			else if (elem["webkitRequestFullScreen"])
+			{
+				if (typeof Element !== "undefined" && typeof Element["ALLOW_KEYBOARD_INPUT"] !== "undefined")
+					elem["webkitRequestFullScreen"](Element["ALLOW_KEYBOARD_INPUT"]);
+				else
+					elem["webkitRequestFullScreen"]();
+			}
+		}
+	};
+	
+	Acts.prototype.CancelFullScreen = function ()
+	{
+		if (this.runtime.isNWjs)
+		{
+			// In debug mode: forward to parent frame
+			if (this.runtime.isDebug)
+			{
+				DebuggerFullscreen(false);
+			}
+			else if (this.runtime.isNodeFullscreen)
+			{
+				nw["Window"]["get"]()["leaveFullscreen"]();
+				
+				this.runtime.isNodeFullscreen = false;
+			}
+		}
+		else
+		{
+			// note case difference, see RequestFullScreen
+			if (document["exitFullscreen"])
+				document["exitFullscreen"]();
+			else if (document["mozCancelFullScreen"])
+				document["mozCancelFullScreen"]();
+			else if (document["msExitFullscreen"])
+				document["msExitFullscreen"]();
+			else if (document["webkitCancelFullScreen"])
+				document["webkitCancelFullScreen"]();
+		}
+	};
+	
+	Acts.prototype.Vibrate = function (pattern_)
+	{
+		try {
+			var arr = pattern_.split(",");
+			
+			var i, len;
+			for (i = 0, len = arr.length; i < len; i++)
+			{
+				arr[i] = parseInt(arr[i], 10);
+			}
+			
+			if (navigator["vibrate"])
+				navigator["vibrate"](arr);
+			else if (navigator["mozVibrate"])
+				navigator["mozVibrate"](arr);
+			else if (navigator["webkitVibrate"])
+				navigator["webkitVibrate"](arr);
+			else if (navigator["msVibrate"])
+				navigator["msVibrate"](arr);
+		}
+		catch (e) {}
+	};
+	
+	Acts.prototype.InvokeDownload = function (url_, filename_)
+	{
+		var a = document.createElement("a");
+		
+		if (typeof a["download"] === "undefined")
+		{
+			// can't do much better than this without download tag support
+			window.open(url_);
+		}
+		else
+		{
+			// auto download
+			var body = document.getElementsByTagName("body")[0];
+			a.textContent = filename_;
+			a.href = url_;
+			a["download"] = filename_;
+			body.appendChild(a);
+			var clickEvent = new MouseEvent("click");
+			a.dispatchEvent(clickEvent);
+			body.removeChild(a);
+		}
+	};
+	
+	Acts.prototype.InvokeDownloadString = function (str_, mimetype_, filename_)
+	{
+		var datauri = "data:" + mimetype_ + "," + encodeURIComponent(str_);
+		var a = document.createElement("a");
+		
+		if (typeof a["download"] === "undefined")
+		{
+			// can't do much better than this without download tag support
+			window.open(datauri);
+		}
+		else
+		{
+			// auto download
+			var body = document.getElementsByTagName("body")[0];
+			a.textContent = filename_;
+			a.href = datauri;
+			a["download"] = filename_;
+			body.appendChild(a);
+			var clickEvent = new MouseEvent("click");
+			a.dispatchEvent(clickEvent);
+			body.removeChild(a);
+		}
+	};
+	
+	Acts.prototype.ConsoleLog = function (type_, msg_)
+	{
+		if (typeof console === "undefined")
+			return;
+		
+		if (type_ === 0 && console.log)
+			console.log(msg_.toString());
+		if (type_ === 1 && console.warn)
+			console.warn(msg_.toString());
+		if (type_ === 2 && console.error)
+			console.error(msg_.toString());
+	};
+	
+	Acts.prototype.ConsoleGroup = function (name_)
+	{
+		if (console && console.group)
+			console.group(name_);
+	};
+
+	Acts.prototype.ConsoleGroupEnd = function ()
+	{
+		if (console && console.groupEnd)
+			console.groupEnd();
+	};
+	
+	Acts.prototype.ExecJs = function (js_)
+	{
+		// let's hope this is used responsibly
+		try {
+			if (eval)
+				eval(js_);
+		}
+		catch (e)
+		{
+			if (console && console.error)
+				console.error("Error executing Javascript: ", e);
+		}
+	};
+	
+	var orientations = [
+		"portrait",
+		"landscape",
+		"portrait-primary",
+		"portrait-secondary",
+		"landscape-primary",
+		"landscape-secondary"
+	];
+	
+	Acts.prototype.LockOrientation = function (o)
+	{
+		o = Math.floor(o);
+		
+		if (o < 0 || o >= orientations.length)
+			return;
+		
+		this.runtime.autoLockOrientation = false;
+		
+		var orientation = orientations[o];
+		
+		if (screen["orientation"] && screen["orientation"]["lock"])
+			screen["orientation"]["lock"](orientation);
+		else if (screen["lockOrientation"])
+			screen["lockOrientation"](orientation);
+		else if (screen["webkitLockOrientation"])
+			screen["webkitLockOrientation"](orientation);
+		else if (screen["mozLockOrientation"])
+			screen["mozLockOrientation"](orientation);
+		else if (screen["msLockOrientation"])
+			screen["msLockOrientation"](orientation);
+	};
+	
+	Acts.prototype.UnlockOrientation = function ()
+	{
+		// Stop the runtime trying to lock orientation on every size event
+		// since the user probably wants to take control of it themselves
+		this.runtime.autoLockOrientation = false;
+		
+		if (screen["orientation"] && screen["orientation"]["unlock"])
+			screen["orientation"]["unlock"]();
+		else if (screen["unlockOrientation"])
+			screen["unlockOrientation"]();
+		else if (screen["webkitUnlockOrientation"])
+			screen["webkitUnlockOrientation"]();
+		else if (screen["mozUnlockOrientation"])
+			screen["mozUnlockOrientation"]();
+		else if (screen["msUnlockOrientation"])
+			screen["msUnlockOrientation"]();
+	};
+
+	pluginProto.acts = new Acts();
+	
+	//////////////////////////////////////
+	// Expressions
+	function Exps() {};
+
+	Exps.prototype.URL = function (ret)
+	{
+		ret.set_string(window.location.toString());
+	};
+	
+	Exps.prototype.Protocol = function (ret)
+	{
+		ret.set_string(window.location.protocol);
+	};
+	
+	Exps.prototype.Domain = function (ret)
+	{
+		ret.set_string(window.location.hostname);
+	};
+	
+	Exps.prototype.PathName = function (ret)
+	{
+		ret.set_string(window.location.pathname);
+	};
+	
+	Exps.prototype.Hash = function (ret)
+	{
+		ret.set_string(window.location.hash);
+	};
+	
+	Exps.prototype.Referrer = function (ret)
+	{
+		ret.set_string(document.referrer);
+	};
+	
+	Exps.prototype.Title = function (ret)
+	{
+		ret.set_string(document.title);
+	};
+	
+	Exps.prototype.Name = function (ret)
+	{
+		ret.set_string(navigator.appName);
+	};
+	
+	Exps.prototype.Version = function (ret)
+	{
+		ret.set_string(navigator.appVersion);
+	};
+	
+	Exps.prototype.Language = function (ret)
+	{
+		// Not in IE or DC
+		if (navigator && navigator.language)
+			ret.set_string(navigator.language);
+		else
+			ret.set_string("");
+	};
+	
+	Exps.prototype.Platform = function (ret)
+	{
+		ret.set_string(navigator.platform);
+	};
+	
+	Exps.prototype.Product = function (ret)
+	{
+		// Not in IE or DC
+		if (navigator && navigator.product)
+			ret.set_string(navigator.product);
+		else
+			ret.set_string("");
+	};
+	
+	Exps.prototype.Vendor = function (ret)
+	{
+		// Not in IE or DC
+		if (navigator && navigator.vendor)
+			ret.set_string(navigator.vendor);
+		else
+			ret.set_string("");
+	};
+	
+	Exps.prototype.UserAgent = function (ret)
+	{
+		ret.set_string(navigator.userAgent);
+	};
+	
+	Exps.prototype.QueryString = function (ret)
+	{
+		ret.set_string(window.location.search);
+	};
+	
+	Exps.prototype.QueryParam = function (ret, paramname)
+	{
+		var match = RegExp('[?&]' + paramname + '=([^&]*)').exec(window.location.search);
+ 
+		if (match)
+			ret.set_string(decodeURIComponent(match[1].replace(/\+/g, ' ')));
+		else
+			ret.set_string("");
+	};
+	
+	Exps.prototype.Bandwidth = function (ret)
+	{
+		var connection = navigator["connection"] || navigator["mozConnection"] || navigator["webkitConnection"];
+		
+		if (!connection)
+			ret.set_float(Number.POSITIVE_INFINITY);
+		else
+		{
+			// "bandwidth" is old API name, "downlinkMax" is latest spec
+			if (typeof connection["bandwidth"] !== "undefined")
+				ret.set_float(connection["bandwidth"]);
+			else if (typeof connection["downlinkMax"] !== "undefined")
+				ret.set_float(connection["downlinkMax"]);
+			else
+				ret.set_float(Number.POSITIVE_INFINITY);
+		}
+	};
+	
+	Exps.prototype.ConnectionType = function (ret)
+	{
+		var connection = navigator["connection"] || navigator["mozConnection"] || navigator["webkitConnection"];
+		
+		if (!connection)
+			ret.set_string("unknown");
+		else
+		{
+			ret.set_string(connection["type"] || "unknown");
+		}
+	};
+	
+	Exps.prototype.BatteryLevel = function (ret)
+	{
+		// check old API style first
+		var battery = navigator["battery"] || navigator["mozBattery"] || navigator["webkitBattery"];
+		
+		if (battery)
+		{
+			ret.set_float(battery["level"]);
+		}
+		else
+		{
+			// otherwise try using new API
+			maybeLoadBatteryManager();
+			
+			if (batteryManager)
+			{
+				ret.set_float(batteryManager["level"]);
+			}
+			else
+			{
+				ret.set_float(1);		// not supported/unknown: assume charged
+			}
+		}
+	};
+	
+	Exps.prototype.BatteryTimeLeft = function (ret)
+	{
+		// check old API style first
+		var battery = navigator["battery"] || navigator["mozBattery"] || navigator["webkitBattery"];
+		
+		if (battery)
+		{
+			ret.set_float(battery["dischargingTime"]);
+		}
+		else
+		{
+			// otherwise try using new API
+			maybeLoadBatteryManager();
+			
+			if (batteryManager)
+			{
+				ret.set_float(batteryManager["dischargingTime"]);
+			}
+			else
+			{
+				ret.set_float(Number.POSITIVE_INFINITY);		// not supported/unknown: assume infinite time left
+			}
+		}
+	};
+	
+	Exps.prototype.ExecJS = function (ret, js_)
+	{
+		// let's hope this is used responsibly
+		if (!eval)
+		{
+			ret.set_any(0);
+			return;
+		}
+		
+		var result = 0;
+		
+		try {
+			result = eval(js_);
+		}
+		catch (e)
+		{
+			if (console && console.error)
+				console.error("Error executing Javascript: ", e);
+		}
+		
+		if (typeof result === "number")
+			ret.set_any(result);
+		else if (typeof result === "string")
+			ret.set_any(result);
+		else if (typeof result === "boolean")
+			ret.set_any(result ? 1 : 0);
+		else
+			ret.set_any(0);
+	};
+	
+	Exps.prototype.ScreenWidth = function (ret)
+	{
+		ret.set_int(screen.width);
+	};
+	
+	Exps.prototype.ScreenHeight = function (ret)
+	{
+		ret.set_int(screen.height);
+	};
+	
+	Exps.prototype.DevicePixelRatio = function (ret)
+	{
+		ret.set_float(this.runtime.devicePixelRatio);
+	};
+	
+	Exps.prototype.WindowInnerWidth = function (ret)
+	{
+		ret.set_int(window.innerWidth);
+	};
+	
+	Exps.prototype.WindowInnerHeight = function (ret)
+	{
+		ret.set_int(window.innerHeight);
+	};
+	
+	Exps.prototype.WindowOuterWidth = function (ret)
+	{
+		ret.set_int(window.outerWidth);
+	};
+	
+	Exps.prototype.WindowOuterHeight = function (ret)
+	{
+		ret.set_int(window.outerHeight);
+	};
+	
+	pluginProto.exps = new Exps();
+	
+}());
+
 // Bound to layout
 // ECMAScript 5 strict mode
 
@@ -28438,6 +29440,7 @@ cr.getObjectRefTable = function () {
 		cr.behaviors.Persist,
 		cr.behaviors.Fade,
 		cr.plugins_.TiledBg,
+		cr.plugins_.Browser,
 		cr.system_object.prototype.cnds.IsGroupActive,
 		cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 		cr.plugins_.Keyboard.prototype.cnds.IsKeyDown,
@@ -28454,26 +29457,31 @@ cr.getObjectRefTable = function () {
 		cr.behaviors.Rotate.prototype.exps.Speed,
 		cr.system_object.prototype.cnds.EveryTick,
 		cr.plugins_.Sprite.prototype.acts.AddInstanceVar,
+		cr.plugins_.Sprite.prototype.cnds.OnCollision,
+		cr.plugins_.Sprite.prototype.acts.Destroy,
+		cr.plugins_.Touch.prototype.cnds.OnTapGestureObject,
+		cr.plugins_.Browser.prototype.acts.RequestFullScreen,
 		cr.system_object.prototype.cnds.CompareBoolVar,
 		cr.plugins_.Sprite.prototype.acts.SetAnim,
 		cr.behaviors.Platform.prototype.cnds.IsOnFloor,
 		cr.plugins_.Sprite.prototype.cnds.OnAnimFinished,
-		cr.plugins_.Sprite.prototype.cnds.OnCollision,
-		cr.plugins_.Sprite.prototype.acts.Destroy,
 		cr.plugins_.Sprite.prototype.acts.SetAngle,
 		cr.plugins_.Sprite.prototype.acts.SetEffectEnabled,
 		cr.system_object.prototype.acts.Wait,
+		cr.plugins_.Sprite.prototype.cnds.IsOnScreen,
 		cr.plugins_.Sprite.prototype.cnds.OnCreated,
+		cr.plugins_.Sprite.prototype.acts.SetTowardPosition,
+		cr.plugins_.Sprite.prototype.exps.X,
+		cr.plugins_.Sprite.prototype.exps.Y,
 		cr.plugins_.Keyboard.prototype.cnds.OnKey,
 		cr.system_object.prototype.acts.GoToLayoutByName,
 		cr.system_object.prototype.acts.ResetGlobals,
 		cr.system_object.prototype.acts.ResetPersisted,
 		cr.system_object.prototype.cnds.OnLayoutStart,
 		cr.system_object.prototype.acts.CreateObject,
-		cr.plugins_.Sprite.prototype.exps.X,
-		cr.plugins_.Sprite.prototype.exps.Y,
 		cr.system_object.prototype.acts.NextPrevLayout,
-		cr.system_object.prototype.acts.RestartLayout
+		cr.system_object.prototype.acts.RestartLayout,
+		cr.plugins_.Sprite.prototype.cnds.IsOverlapping
 	];
 };
 
