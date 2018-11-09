@@ -28281,6 +28281,154 @@ cr.behaviors.Platform = function(runtime)
 	
 }());
 
+// Solid
+// ECMAScript 5 strict mode
+
+;
+;
+
+/////////////////////////////////////
+// Behavior class
+cr.behaviors.solid = function(runtime)
+{
+	this.runtime = runtime;
+};
+
+(function ()
+{
+	var behaviorProto = cr.behaviors.solid.prototype;
+		
+	/////////////////////////////////////
+	// Behavior type class
+	behaviorProto.Type = function(behavior, objtype)
+	{
+		this.behavior = behavior;
+		this.objtype = objtype;
+		this.runtime = behavior.runtime;
+	};
+
+	var behtypeProto = behaviorProto.Type.prototype;
+
+	behtypeProto.onCreate = function()
+	{
+	};
+
+	/////////////////////////////////////
+	// Behavior instance class
+	behaviorProto.Instance = function(type, inst)
+	{
+		this.type = type;
+		this.behavior = type.behavior;
+		this.inst = inst;				// associated object instance to modify
+		this.runtime = type.runtime;
+	};
+	
+	var behinstProto = behaviorProto.Instance.prototype;
+
+	behinstProto.onCreate = function()
+	{
+		this.inst.extra["solidEnabled"] = this.properties[0];
+	};
+
+	behinstProto.tick = function ()
+	{
+	};
+	
+	
+	function Cnds() {};
+	
+	Cnds.prototype.IsEnabled = function ()
+	{
+		return this.inst.extra["solidEnabled"];
+	};
+	
+	behaviorProto.cnds = new Cnds();
+	
+	function Acts() {};
+	
+	Acts.prototype.SetEnabled = function (e)
+	{
+		this.inst.extra["solidEnabled"] = !!e;
+	};
+	
+	behaviorProto.acts = new Acts();
+	
+}());
+
+// Jump-thru
+// ECMAScript 5 strict mode
+
+;
+;
+
+/////////////////////////////////////
+// Behavior class
+cr.behaviors.jumpthru = function(runtime)
+{
+	this.runtime = runtime;
+};
+
+(function ()
+{
+	var behaviorProto = cr.behaviors.jumpthru.prototype;
+		
+	/////////////////////////////////////
+	// Behavior type class
+	behaviorProto.Type = function(behavior, objtype)
+	{
+		this.behavior = behavior;
+		this.objtype = objtype;
+		this.runtime = behavior.runtime;
+	};
+
+	var behtypeProto = behaviorProto.Type.prototype;
+
+	behtypeProto.onCreate = function()
+	{
+	};
+
+	/////////////////////////////////////
+	// Behavior instance class
+	behaviorProto.Instance = function(type, inst)
+	{
+		this.type = type;
+		this.behavior = type.behavior;
+		this.inst = inst;				// associated object instance to modify
+		this.runtime = type.runtime;
+	};
+	
+	var behinstProto = behaviorProto.Instance.prototype;
+
+	behinstProto.onCreate = function()
+	{
+		this.inst.extra["jumpthruEnabled"] = this.properties[0];
+	};
+
+	behinstProto.tick = function ()
+	{
+	};
+	
+	
+	function Cnds() {};
+	
+	Cnds.prototype.IsEnabled = function ()
+	{
+		return this.inst.extra["jumpthruEnabled"];
+	};
+	
+	behaviorProto.cnds = new Cnds();
+	
+	function Acts() {};
+	
+	Acts.prototype.SetEnabled = function (e)
+	{
+		this.inst.extra["jumpthruEnabled"] = !!e;
+	};
+	
+	behaviorProto.acts = new Acts();
+	
+}());
+
 // Bullet
 // ECMAScript 5 strict mode
 
@@ -28697,154 +28845,6 @@ cr.behaviors.Bullet = function(runtime)
 	};
 	
 	behaviorProto.exps = new Exps();
-	
-}());
-
-// Solid
-// ECMAScript 5 strict mode
-
-;
-;
-
-/////////////////////////////////////
-// Behavior class
-cr.behaviors.solid = function(runtime)
-{
-	this.runtime = runtime;
-};
-
-(function ()
-{
-	var behaviorProto = cr.behaviors.solid.prototype;
-		
-	/////////////////////////////////////
-	// Behavior type class
-	behaviorProto.Type = function(behavior, objtype)
-	{
-		this.behavior = behavior;
-		this.objtype = objtype;
-		this.runtime = behavior.runtime;
-	};
-
-	var behtypeProto = behaviorProto.Type.prototype;
-
-	behtypeProto.onCreate = function()
-	{
-	};
-
-	/////////////////////////////////////
-	// Behavior instance class
-	behaviorProto.Instance = function(type, inst)
-	{
-		this.type = type;
-		this.behavior = type.behavior;
-		this.inst = inst;				// associated object instance to modify
-		this.runtime = type.runtime;
-	};
-	
-	var behinstProto = behaviorProto.Instance.prototype;
-
-	behinstProto.onCreate = function()
-	{
-		this.inst.extra["solidEnabled"] = this.properties[0];
-	};
-
-	behinstProto.tick = function ()
-	{
-	};
-	
-	
-	function Cnds() {};
-	
-	Cnds.prototype.IsEnabled = function ()
-	{
-		return this.inst.extra["solidEnabled"];
-	};
-	
-	behaviorProto.cnds = new Cnds();
-	
-	function Acts() {};
-	
-	Acts.prototype.SetEnabled = function (e)
-	{
-		this.inst.extra["solidEnabled"] = !!e;
-	};
-	
-	behaviorProto.acts = new Acts();
-	
-}());
-
-// Jump-thru
-// ECMAScript 5 strict mode
-
-;
-;
-
-/////////////////////////////////////
-// Behavior class
-cr.behaviors.jumpthru = function(runtime)
-{
-	this.runtime = runtime;
-};
-
-(function ()
-{
-	var behaviorProto = cr.behaviors.jumpthru.prototype;
-		
-	/////////////////////////////////////
-	// Behavior type class
-	behaviorProto.Type = function(behavior, objtype)
-	{
-		this.behavior = behavior;
-		this.objtype = objtype;
-		this.runtime = behavior.runtime;
-	};
-
-	var behtypeProto = behaviorProto.Type.prototype;
-
-	behtypeProto.onCreate = function()
-	{
-	};
-
-	/////////////////////////////////////
-	// Behavior instance class
-	behaviorProto.Instance = function(type, inst)
-	{
-		this.type = type;
-		this.behavior = type.behavior;
-		this.inst = inst;				// associated object instance to modify
-		this.runtime = type.runtime;
-	};
-	
-	var behinstProto = behaviorProto.Instance.prototype;
-
-	behinstProto.onCreate = function()
-	{
-		this.inst.extra["jumpthruEnabled"] = this.properties[0];
-	};
-
-	behinstProto.tick = function ()
-	{
-	};
-	
-	
-	function Cnds() {};
-	
-	Cnds.prototype.IsEnabled = function ()
-	{
-		return this.inst.extra["jumpthruEnabled"];
-	};
-	
-	behaviorProto.cnds = new Cnds();
-	
-	function Acts() {};
-	
-	Acts.prototype.SetEnabled = function (e)
-	{
-		this.inst.extra["jumpthruEnabled"] = !!e;
-	};
-	
-	behaviorProto.acts = new Acts();
 	
 }());
 
@@ -29430,11 +29430,11 @@ cr.getObjectRefTable = function () {
 		cr.behaviors.bound,
 		cr.behaviors.scrollto,
 		cr.behaviors.Platform,
-		cr.behaviors.Bullet,
 		cr.plugins_.Keyboard,
 		cr.behaviors.solid,
 		cr.plugins_.Touch,
 		cr.behaviors.jumpthru,
+		cr.behaviors.Bullet,
 		cr.behaviors.Rotate,
 		cr.behaviors.destroy,
 		cr.behaviors.Persist,
@@ -29459,29 +29459,33 @@ cr.getObjectRefTable = function () {
 		cr.plugins_.Sprite.prototype.acts.AddInstanceVar,
 		cr.plugins_.Sprite.prototype.cnds.OnCollision,
 		cr.plugins_.Sprite.prototype.acts.Destroy,
-		cr.plugins_.Touch.prototype.cnds.OnTapGestureObject,
-		cr.plugins_.Browser.prototype.acts.RequestFullScreen,
+		cr.system_object.prototype.acts.RestartLayout,
 		cr.system_object.prototype.cnds.CompareBoolVar,
 		cr.plugins_.Sprite.prototype.acts.SetAnim,
 		cr.behaviors.Platform.prototype.cnds.IsOnFloor,
 		cr.plugins_.Sprite.prototype.cnds.OnAnimFinished,
+		cr.plugins_.Sprite.prototype.cnds.IsBoolInstanceVarSet,
 		cr.plugins_.Sprite.prototype.acts.SetAngle,
 		cr.plugins_.Sprite.prototype.acts.SetEffectEnabled,
 		cr.system_object.prototype.acts.Wait,
 		cr.plugins_.Sprite.prototype.cnds.IsOnScreen,
 		cr.plugins_.Sprite.prototype.cnds.OnCreated,
+		cr.plugins_.Sprite.prototype.acts.SetBoolInstanceVar,
+		cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
+		cr.system_object.prototype.exps.choose,
+		cr.plugins_.Sprite.prototype.acts.SetAnimSpeed,
+		cr.system_object.prototype.exps.random,
 		cr.plugins_.Sprite.prototype.acts.SetTowardPosition,
 		cr.plugins_.Sprite.prototype.exps.X,
 		cr.plugins_.Sprite.prototype.exps.Y,
 		cr.plugins_.Keyboard.prototype.cnds.OnKey,
+		cr.plugins_.Touch.prototype.cnds.OnTapGestureObject,
 		cr.system_object.prototype.acts.GoToLayoutByName,
 		cr.system_object.prototype.acts.ResetGlobals,
 		cr.system_object.prototype.acts.ResetPersisted,
 		cr.system_object.prototype.cnds.OnLayoutStart,
 		cr.system_object.prototype.acts.CreateObject,
-		cr.system_object.prototype.acts.NextPrevLayout,
-		cr.system_object.prototype.acts.RestartLayout,
-		cr.plugins_.Sprite.prototype.cnds.IsOverlapping
+		cr.system_object.prototype.acts.NextPrevLayout
 	];
 };
 
